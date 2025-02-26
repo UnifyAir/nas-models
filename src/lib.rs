@@ -1,11 +1,13 @@
 pub mod message;
 pub mod types;
 
-include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
+pub mod bindings {
+    include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
+}
+
 
 #[cfg(test)]
 mod tests {
-    use super::*;
 
     #[test]
     fn test_snow_3g_f8() {
@@ -22,7 +24,7 @@ mod tests {
         let original_data = data.clone();
         
         unsafe {
-            crate::snow_3g_f8(
+            crate::bindings::snow_3g_f8(
                 key.as_mut_ptr(),
                 0x72A4F20F,
                 0x0C,
@@ -36,7 +38,7 @@ mod tests {
         println!("Encrypted: {:02X?}", data);
         
         unsafe {
-            crate::snow_3g_f8(
+            crate::bindings::snow_3g_f8(
                 key.as_mut_ptr(),
                 0x72A4F20F,
                 0x0C,
