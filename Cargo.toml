@@ -8,3 +8,7 @@ tlv-derive = { path = "../tlv-compiler/tlv-derive" }
 tlv = { path = "../tlv-compiler/tlv"}
 bitfield = "0.17.0"
 derive_deref = "1.1.1"
+
+[build-dependencies]
+cc = "1.0"  
+bindgen = "0.69.1"  # Add bindgen
