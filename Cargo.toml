@@ -7,7 +7,7 @@ edition = "2021"
 tlv-derive = { path = "../tlv-compiler/tlv-derive" }
 tlv = { path = "../tlv-compiler/tlv"}
 bitfield = "0.17.0"
-derive_deref = "1.1.1"
+derive_more = { version = "2", features = ["from", "into"] }
 
 [build-dependencies]
 cc = "1.0"  
