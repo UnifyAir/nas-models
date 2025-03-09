@@ -1,5 +1,6 @@
 pub mod message;
 pub mod types;
+pub use tlv::prelude::*;
 
 pub mod bindings {
     include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
@@ -8,6 +9,34 @@ pub mod bindings {
 
 #[cfg(test)]
 mod tests {
+
+    use super::*;
+    use crate::message::*;
+
+    #[test]
+    fn test_nas_registration_request() {
+        // The provided bytes for NasRegistrationRequest
+        let mut bytes = Bytes::from_static(&[0x7e, 0x0, 0x41, 0x79, 0x0, 0xc, 0x1, 0x2, 0xf8, 
+            0x39, 0xf0, 0xff, 0x0, 0x0, 0x0, 0x0, 0x47, 0x78, 0x2e, 0x2, 0x80, 0x20
+        ]);
+
+        // Decode the bytes into a NasRegistrationRequest
+        let decoded = NasRegistrationRequest::decode(bytes.len(), &mut bytes.clone()).expect("Failed to decode NasRegistrationRequest");
+        
+        println!("Decoded NasRegistrationRequest: {:#?}", decoded);
+
+        // Create a BytesMut buffer for encoding
+        let mut buffer = BytesMut::new();
+        
+        // Re-encode the decoded message
+        let encoded = decoded.encode(&mut buffer).expect("Failed to encode NasRegistrationRequest");
+        
+        println!("Original bytes: {:02X?}", bytes);
+        println!("Re-encoded bytes: {:02X?}", encoded);
+        
+        // Verify that the re-encoded message matches the original bytes
+        assert_eq!(bytes.to_vec(), buffer.to_vec(), "Re-encoded message doesn't match original bytes");
+    }
 
     #[test]
     fn test_snow_3g_f8() {
