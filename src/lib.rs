@@ -2,9 +2,9 @@ pub mod message;
 pub mod types;
 pub use tlv::prelude::*;
 
-pub mod bindings {
-    include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
-}
+// pub mod bindings {
+//     include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
+// }
 
 
 #[cfg(test)]
@@ -12,6 +12,7 @@ mod tests {
 
     use super::*;
     use crate::message::*;
+    use crate::types::*;
 
     #[test]
     fn test_nas_registration_request() {
@@ -36,6 +37,34 @@ mod tests {
         
         // Verify that the re-encoded message matches the original bytes
         assert_eq!(bytes.to_vec(), buffer.to_vec(), "Re-encoded message doesn't match original bytes");
+    }
+
+    #[test]
+    fn test_ue_security_capability() {
+        // The provided bytes for UeSecurityCapability
+        let mut bytes = Bytes::from_static(&[0x80, 0x20]);
+        
+        // Decode the bytes into a UeSecurityCapability
+        let decoded = UeSecurityCapability::decode(bytes.len(), &mut bytes.clone())
+            .expect("Failed to decode UeSecurityCapability");
+        
+        println!("Decoded UeSecurityCapability: {:#?}", decoded);
+        println!("ea: {:#?}", decoded.get_ea_ia().0);
+        println!("ia: {:#?}", decoded.get_ea_ia().1);
+        
+        // Create a BytesMut buffer for encoding
+        let mut buffer = BytesMut::new();
+        
+        // Re-encode the decoded message
+        let encoded = decoded.encode(&mut buffer)
+            .expect("Failed to encode UeSecurityCapability");
+        
+        println!("Original bytes: {:02X?}", bytes);
+        println!("Re-encoded bytes: {:02X?}", encoded);
+        
+        // Verify that the re-encoded message matches the original bytes
+        assert_eq!(bytes.to_vec(), buffer.to_vec(), 
+            "Re-encoded message doesn't match original bytes");
     }
 
     #[test]

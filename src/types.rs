@@ -73,6 +73,10 @@ pub enum SecurityType {
 }
 
 impl SecurityHeaderType {
+    pub fn new(security_type: SecurityType) -> Self {
+        Self(security_type as u8)
+    }
+
     pub fn get_security_type(&self) -> Option<SecurityType> {
         match self.get_raw_security_header_type() {
             0b0000 => Some(SecurityType::PlainNasMessage),
@@ -80,13 +84,14 @@ impl SecurityHeaderType {
             0b0010 => Some(SecurityType::IntegrityProtectedAndCiphered),
             0b0011 => Some(SecurityType::IntegrityProtectedWithNew5gNasSecurityContext),
             0b0100 => Some(SecurityType::IntegrityProtectedAndCipheredWithNew5gNasSecurityContext),
-            _ => None, // Handle invalid values
+            _ => None, 
         }
     }
     
     pub fn set_security_type_enum(&mut self, security_type: SecurityType) {
         self.set_raw_security_header_type(security_type as u8);
     }
+   
 }
 
 
@@ -109,16 +114,16 @@ pub struct MessageType(u8);
 
 
 // ******************************************************************
-// FivegsRegistrationType
+// FiveGsRegistrationType
 // ******************************************************************
 
 // Auto-generated
 // #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-// pub struct FivegsRegistrationType(u8);
+// pub struct FiveGsRegistrationType(u8);
 
 bitfield! {
     #[derive(TlvEncode, TlvDecode, Into, From, Clone)]
-    pub struct FivegsRegistrationType(u8);
+    pub struct FiveGsRegistrationType(u8);
     impl Debug;
     u8;
     pub get_raw_registration_type, set_raw_registration_type: 2, 0;
@@ -135,7 +140,12 @@ pub enum RegistrationType {
     DisasterRoamingInitialRegistration = 0b111,
 }
 
-impl FivegsRegistrationType {
+impl FiveGsRegistrationType {
+
+    pub fn new(reg_type: RegistrationType) -> Self {
+        Self(reg_type as u8)
+    }
+
     pub fn get_registration_type(&self) -> Option<RegistrationType> {
         match self.get_raw_registration_type() {
             0b001 => Some(RegistrationType::InitialRegistration),
@@ -152,6 +162,7 @@ impl FivegsRegistrationType {
     pub fn set_registration_type_enum(&mut self, reg_type: RegistrationType) {
         self.set_raw_registration_type(reg_type as u8);
     }
+    
 }
 
 
@@ -183,6 +194,13 @@ pub enum NasKeySetIdentifierValue {
 }
 
 impl KeySetIdentifier {
+    pub fn new(security_context_type: SecurityContextType, nas_key_set_identifier_value: NasKeySetIdentifierValue) -> KeySetIdentifier {
+        let mut result = Self(0);
+        Self::set_security_context_type(&mut result, security_context_type);
+        Self::set_key_set_identifier(&mut result, nas_key_set_identifier_value);
+        result
+    }
+
     pub fn get_security_context_type(&self) -> SecurityContextType {
         match self.get_raw_security_context_type() {
             false => SecurityContextType::NativeSecurityContext,
@@ -222,30 +240,75 @@ impl KeySetIdentifier {
 
 
 // ******************************************************************
-// FivegsMobileIdentity
+// FiveGsMobileIdentity
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsMobileIdentity(Vec<u8>);
+pub struct FiveGsMobileIdentity(Vec<u8>);
 
-// pub struct FivegGUTI {
-//     pub constOne: u8,
-//     pub spareZero: u8,
-//     pub mccDigitOne: u8,
-//     pub mccDigitTwo: u8,
-//     pub mccDigitTree: u8,
-//     pub mncDigitOne: u8,
-//     pub mncDigitTwo
-// } 
+impl FiveGsMobileIdentity {
 
+    pub fn new() -> Self {
+        todo!()
+    }
+
+    pub fn get_mobile_identity_type(&self) -> Option<IdentityType> {
+        FiveGsIdentityType(self.0.first()? & 0b00000111).get_identity_type()
+    }
+
+    pub fn get_mobile_identity(self) -> Option<MobileIdentity> {
+        match self.get_mobile_identity_type()? {
+            IdentityType::Suci => todo!(),
+            IdentityType::FiveGGuti => {
+                Some(MobileIdentity::FiveGGuti(FiveGGuti(self.0)))
+            },
+            IdentityType::Imei => todo!(),
+            IdentityType::FiveGSTmsi => todo!(),
+            IdentityType::Imeisv => todo!(),
+            IdentityType::MacAddress => todo!(),
+            IdentityType::Eui64 => todo!(),
+        }
+    }
+
+    pub fn set_mobile_identity(&mut self, identity: MobileIdentity) {
+        match identity {
+            MobileIdentity::Suci => todo!(),
+            MobileIdentity::FiveGGuti(guti) => {
+                self.0 = guti.0;
+            },
+            MobileIdentity::Imei => todo!(),
+            MobileIdentity::FiveGSTmsi => todo!(),
+            MobileIdentity::Imeisv => todo!(),
+            MobileIdentity::MacAddress => todo!(),
+            MobileIdentity::Eui64 => todo!(),
+        }
+    }
+}
+
+pub enum MobileIdentity {
+    Suci,
+    FiveGGuti(Guti),
+    Imei,
+    FiveGSTmsi,
+    Imeisv,
+    MacAddress,
+    Eui64,
+}
+
+// ******************************************************************
+// FiveGGUTI
+// ******************************************************************
+
+// Manually-generated
+pub type Guti = FiveGGuti<Vec<u8>>;
 
 bitfield! {
     #[derive(Clone)]
-    pub struct FivegGUTI(MSB0 [u8]);
+    pub struct FiveGGuti(MSB0 [u8]);
     impl Debug;
     u8;
-    pub get_identity_type, set_identity_type: 2, 0;
+    pub from into FiveGsIdentityType, get_identity_type, set_identity_type: 2, 0;
     pub get_mcc_digit_1, set_mcc_digit_1: 11, 8;
     pub get_mcc_digit_2, set_mcc_digit_2: 15, 12;
     pub get_mcc_digit_3, set_mcc_digit_3: 19, 16;
@@ -256,15 +319,16 @@ bitfield! {
     pub get_amf_set_id, set_amf_set_id: 47, 40;
     pub get_amf_pointer, set_amf_pointer: 53, 48;
     pub get_amf_set_id_contd, set_amf_set_id_contd: 55, 54;
+    pub u32, get_5g_tmsi, set_5g_tmsi: 87, 56;
 }
 
 // ******************************************************************
-// FivegmmCapability
+// FiveGmmCapability
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegmmCapability(Vec<u8>);
+pub struct FiveGmmCapability(Vec<u8>);
 
 
 // ******************************************************************
@@ -274,6 +338,96 @@ pub struct FivegmmCapability(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct UeSecurityCapability(Vec<u8>);
+
+impl UeSecurityCapability {
+    pub fn new(ea_ia: (EA, IA), eea_eia: Option<(EEA, EIA)>, length: usize) -> Self {
+        // Todo: find a better solution for this.
+        let mut result = vec![0; length];
+        result[0] = ea_ia.0.0;
+        result[1] = ea_ia.1.0;
+        if let Some((eea_val, eia_val)) = eea_eia {
+            result[2] = eea_val.0;
+            result[3] = eia_val.0;
+        }
+        Self(result)
+    }
+    
+    pub fn get_ea_ia(&self) -> (EA, IA) {
+        // safety: index out of bound is handled prior to this call in Tlv Decode
+        (EA(self.0[0]), IA(self.0[1]))
+    }
+
+    pub fn get_eea_eia(&self) -> Option<(EEA, EIA)> {
+        if self.0.len() >= 3 {
+            return Some((EEA(self.0[2]), EIA(self.0[3])))
+        }
+        None
+    }
+}
+
+bitfield! {
+    #[derive(Clone)]
+    pub struct EA(u8);
+    impl Debug;
+    impl new;
+    u8;
+    pub get_5g_ea0_supported, set_5g_ea0_supported: 7;
+    pub get_128_5g_ea1_supported, set_128_5g_ea1_supported: 6;
+    pub get_128_5g_ea2_supported, set_128_5g_ea2_supported: 5;
+    pub get_128_5g_ea3_supported, set_128_5g_ea3_supported: 4;
+    pub get_5g_ea4_supported, set_5g_ea4_supported: 3;
+    pub get_5g_ea5_supported, set_5g_ea5_supported: 2;
+    pub get_5g_ea6_supported, set_5g_ea6_supported: 1;
+    pub get_5g_ea7_supported, set_5g_ea7_supported: 0;
+}
+
+bitfield! {
+    #[derive(Clone)]
+    pub struct IA(u8);
+    impl Debug;
+    impl new;
+    u8;
+    pub get_5g_ia0_supported, set_5g_ia0_supported: 7;
+    pub get_128_5g_ia1_supported, set_128_5g_ia1_supported: 6;
+    pub get_128_5g_ia2_supported, set_128_5g_ia2_supported: 5;
+    pub get_128_5g_ia3_supported, set_128_5g_ia3_supported: 4;
+    pub get_5g_ia4_supported, set_5g_ia4_supported: 3;
+    pub get_5g_ia5_supported, set_5g_ia5_supported: 2;
+    pub get_5g_ia6_supported, set_5g_ia6_supported: 1;
+    pub get_5g_ia7_supported, set_5g_ia7_supported: 0;
+}
+
+bitfield! {
+    #[derive(Clone)]
+    pub struct EEA(u8);
+    impl Debug;
+    impl new;
+    u8;
+    pub get_eea0_supported, set_eea0_supported: 7;
+    pub get_128_eea1_supported, set_128_eea1_supported: 6;
+    pub get_128_eea2_supported, set_128_eea2_supported: 5;
+    pub get_128_eea3_supported, set_128_eea3_supported: 4;
+    pub get_eea4_supported, set_eea4_supported: 3;
+    pub get_eea5_supported, set_eea5_supported: 2;
+    pub get_eea6_supported, set_eea6_supported: 1;
+    pub get_eea7_supported, set_eea7_supported: 0;
+}
+
+bitfield! {
+    #[derive(Clone)]
+    pub struct EIA(u8);
+    impl Debug;
+    impl new;
+    u8;
+    pub get_eia0_supported, set_eia0_supported: 7;
+    pub get_128_eia1_supported, set_128_eia1_supported: 6;
+    pub get_128_eia2_supported, set_128_eia2_supported: 5;
+    pub get_128_eia3_supported, set_128_eia3_supported: 4;
+    pub get_eia4_supported, set_eia4_supported: 3;
+    pub get_eia5_supported, set_eia5_supported: 2;
+    pub get_eia6_supported, set_eia6_supported: 1;
+    pub get_eia7_supported, set_eia7_supported: 0;
+}
 
 
 // ******************************************************************
@@ -286,12 +440,12 @@ pub struct Nssai(Vec<u8>);
 
 
 // ******************************************************************
-// FivegsTrackingAreaIdentity
+// FiveGsTrackingAreaIdentity
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsTrackingAreaIdentity(Vec<u8>);
+pub struct FiveGsTrackingAreaIdentity(Vec<u8>);
 
 
 // ******************************************************************
@@ -358,12 +512,12 @@ pub struct UeUsageSetting(u8);
 
 
 // ******************************************************************
-// FivegsDrxParameters
+// FiveGsDrxParameters
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsDrxParameters(u8);
+pub struct FiveGsDrxParameters(u8);
 
 
 // ******************************************************************
@@ -412,12 +566,12 @@ pub struct NetworkSlicingIndication(u8);
 
 
 // ******************************************************************
-// FivegsUpdateType
+// FiveGsUpdateType
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsUpdateType(u8);
+pub struct FiveGsUpdateType(u8);
 
 
 // ******************************************************************
@@ -583,12 +737,12 @@ pub struct PeipsAssistanceInformation(Vec<u8>);
 
 
 // ******************************************************************
-// FivegsRegistrationResult
+// FiveGsRegistrationResult
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsRegistrationResult(u8);
+pub struct FiveGsRegistrationResult(u8);
 
 
 // ******************************************************************
@@ -601,12 +755,12 @@ pub struct PlmnList(Vec<u8>);
 
 
 // ******************************************************************
-// FivegsTrackingAreaIdentityList
+// FiveGsTrackingAreaIdentityList
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsTrackingAreaIdentityList(Vec<u8>);
+pub struct FiveGsTrackingAreaIdentityList(Vec<u8>);
 
 
 // ******************************************************************
@@ -619,12 +773,12 @@ pub struct RejectedNssai(Vec<u8>);
 
 
 // ******************************************************************
-// FivegsNetworkFeatureSupport
+// FiveGsNetworkFeatureSupport
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsNetworkFeatureSupport(Vec<u8>);
+pub struct FiveGsNetworkFeatureSupport(Vec<u8>);
 
 
 // ******************************************************************
@@ -781,12 +935,12 @@ pub struct ExtendedRejectedNssai(Vec<u8>);
 
 
 // ******************************************************************
-// FivegsAdditionalRequestResult
+// FiveGsAdditionalRequestResult
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsAdditionalRequestResult(u8);
+pub struct FiveGsAdditionalRequestResult(u8);
 
 
 // ******************************************************************
@@ -835,12 +989,12 @@ pub struct NsagInformation(Vec<u8>);
 
 
 // ******************************************************************
-// FivegmmCause
+// FiveGmmCause
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegmmCause(u8);
+pub struct FiveGmmCause(u8);
 
 
 // ******************************************************************
@@ -979,16 +1133,16 @@ pub struct AuthenticationFailureParameter(Vec<u8>);
 
 
 // ******************************************************************
-// FivegsIdentityType
+// FiveGsIdentityType
 // ******************************************************************
 
 // Auto-generated
 // #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-// pub struct FivegsIdentityType(u8);
+// pub struct FiveGsIdentityType(u8);
 
 bitfield! {
     #[derive(TlvEncode, TlvDecode, Into, From, Clone)]
-    pub struct FivegsIdentityType(u8);
+    pub struct FiveGsIdentityType(u8);
     impl Debug;
     u8;
     pub get_raw_identity_type, set_raw_identity_type: 2, 0;
@@ -1004,7 +1158,11 @@ pub enum IdentityType {
     Eui64 = 0b111,
 }
 
-impl FivegsIdentityType {
+impl FiveGsIdentityType {
+    pub fn new(identity_type: IdentityType) -> Self {
+        Self(identity_type as u8)
+    }
+
     pub fn get_identity_type(&self) -> Option<IdentityType> {
         match self.get_raw_identity_type() {
             0b001 => Some(IdentityType::Suci),
@@ -1021,6 +1179,7 @@ impl FivegsIdentityType {
     pub fn set_identity_type_enum(&mut self, identity_type: IdentityType) {
         self.set_raw_identity_type(identity_type as u8);
     }
+    
 }
 
 
@@ -1187,12 +1346,12 @@ pub struct SscMode(u8);
 
 
 // ******************************************************************
-// FivegsmCapability
+// FiveGsmCapability
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsmCapability(Vec<u8>);
+pub struct FiveGsmCapability(Vec<u8>);
 
 
 // ******************************************************************
@@ -1331,12 +1490,12 @@ pub struct SessionAmbr(Vec<u8>);
 
 
 // ******************************************************************
-// FivegsmCause
+// FiveGsmCause
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsmCause(u8);
+pub struct FiveGsmCause(u8);
 
 
 // ******************************************************************
@@ -1376,12 +1535,12 @@ pub struct QosFlowDescriptions(Vec<u8>);
 
 
 // ******************************************************************
-// FivegsmNetworkFeatureSupport
+// FiveGsmNetworkFeatureSupport
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsmNetworkFeatureSupport(Vec<u8>);
+pub struct FiveGsmNetworkFeatureSupport(Vec<u8>);
 
 
 // ******************************************************************
@@ -1430,12 +1589,12 @@ pub struct AllowedSscMode(u8);
 
 
 // ******************************************************************
-// FivegsmCongestionReAttemptIndicator
+// FiveGsmCongestionReAttemptIndicator
 // ******************************************************************
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FivegsmCongestionReAttemptIndicator(u8);
+pub struct FiveGsmCongestionReAttemptIndicator(u8);
 
 
 // ******************************************************************
