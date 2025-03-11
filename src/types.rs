@@ -993,8 +993,130 @@ pub struct NsagInformation(Vec<u8>);
 // ******************************************************************
 
 // Auto-generated
-#[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FiveGmmCause(u8);
+// #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
+// pub struct FiveGmmCause(u8);
+
+bitfield! {
+    #[derive(TlvEncode, TlvDecode, Into, From, Clone)]
+    pub struct FiveGmmCause(u8);
+    impl Debug;
+    u8;
+    pub get_raw_cause_value, set_raw_cause_value: 7, 0;
+}
+
+pub enum GmmCauseValue {
+    IllegalUe = 0x03,
+    PeiNotAccepted = 0x05,
+    IllegalMe = 0x06,
+    FiveGsServicesNotAllowed = 0x07,
+    UeIdentityCannotBeDerivedByNetwork = 0x09,
+    ImplicitlyDeregistered = 0x0A,
+    PlmnNotAllowed = 0x0B,
+    TrackingAreaNotAllowed = 0x0C,
+    RoamingNotAllowedInThisTrackingArea = 0x0D,
+    NoSuitableCellsInTrackingArea = 0x0F,
+    MacFailure = 0x14,
+    SynchFailure = 0x15,
+    Congestion = 0x16,
+    UeSecurityCapabilitiesMismatch = 0x17,
+    SecurityModeRejectedUnspecified = 0x18,
+    Non5gAuthenticationUnacceptable = 0x1A,
+    N1ModeNotAllowed = 0x1B,
+    RestrictedServiceArea = 0x1C,
+    RedirectionToEpcRequired = 0x1F,
+    IabNodeOperationNotAuthorized = 0x24,
+    LadnNotAvailable = 0x2B,
+    NoNetworkSlicesAvailable = 0x3E,
+    MaximumNumberOfPduSessionsReached = 0x41,
+    InsufficientResourcesForSpecificSliceAndDnn = 0x43,
+    InsufficientResourcesForSpecificSlice = 0x45,
+    NgKsiAlreadyInUse = 0x47,
+    Non3gppAccessTo5gcnNotAllowed = 0x48,
+    ServingNetworkNotAuthorized = 0x49,
+    TemporarilyNotAuthorizedForThisSnpn = 0x4A,
+    PermanentlyNotAuthorizedForThisSnpn = 0x4B,
+    NotAuthorizedForThisCagOrAuthorizedForCagCellsOnly = 0x4C,
+    WirelineAccessAreaNotAllowed = 0x4D,
+    PlmnNotAllowedToOperateAtPresentUeLocation = 0x4E,
+    UasServicesNotAllowed = 0x4F,
+    DisasterRoamingForDeterminedPlmnWithDisasterConditionNotAllowed = 0x50,
+    PayloadWasNotForwarded = 0x5A,
+    DnnNotSupportedOrNotSubscribedInSlice = 0x5B,
+    InsufficientUserPlaneResourcesForPduSession = 0x5C,
+    OnboardingServicesTerminated = 0x5D,
+    SemanticallyIncorrectMessage = 0x5F,
+    InvalidMandatoryInformation = 0x60,
+    MessageTypeNonExistentOrNotImplemented = 0x61,
+    MessageTypeNotCompatibleWithProtocolState = 0x62,
+    InformationElementNonExistentOrNotImplemented = 0x63,
+    ConditionalIeError = 0x64,
+    MessageNotCompatibleWithProtocolState = 0x65,
+    ProtocolErrorUnspecified = 0x6F,
+}
+
+impl FiveGmmCause {
+    pub fn new(cause_value: GmmCauseValue) -> Self {
+        Self(cause_value as u8)
+    }
+
+    pub fn get_cause_value(&self) -> GmmCauseValue {
+        match self.get_raw_cause_value() {
+            0x03 => GmmCauseValue::IllegalUe,
+            0x05 => GmmCauseValue::PeiNotAccepted,
+            0x06 => GmmCauseValue::IllegalMe,
+            0x07 => GmmCauseValue::FiveGsServicesNotAllowed,
+            0x09 => GmmCauseValue::UeIdentityCannotBeDerivedByNetwork,
+            0x0A => GmmCauseValue::ImplicitlyDeregistered,
+            0x0B => GmmCauseValue::PlmnNotAllowed,
+            0x0C => GmmCauseValue::TrackingAreaNotAllowed,
+            0x0D => GmmCauseValue::RoamingNotAllowedInThisTrackingArea,
+            0x0F => GmmCauseValue::NoSuitableCellsInTrackingArea,
+            0x14 => GmmCauseValue::MacFailure,
+            0x15 => GmmCauseValue::SynchFailure,
+            0x16 => GmmCauseValue::Congestion,
+            0x17 => GmmCauseValue::UeSecurityCapabilitiesMismatch,
+            0x18 => GmmCauseValue::SecurityModeRejectedUnspecified,
+            0x1A => GmmCauseValue::Non5gAuthenticationUnacceptable,
+            0x1B => GmmCauseValue::N1ModeNotAllowed,
+            0x1C => GmmCauseValue::RestrictedServiceArea,
+            0x1F => GmmCauseValue::RedirectionToEpcRequired,
+            0x24 => GmmCauseValue::IabNodeOperationNotAuthorized,
+            0x2B => GmmCauseValue::LadnNotAvailable,
+            0x3E => GmmCauseValue::NoNetworkSlicesAvailable,
+            0x41 => GmmCauseValue::MaximumNumberOfPduSessionsReached,
+            0x43 => GmmCauseValue::InsufficientResourcesForSpecificSliceAndDnn,
+            0x45 => GmmCauseValue::InsufficientResourcesForSpecificSlice,
+            0x47 => GmmCauseValue::NgKsiAlreadyInUse,
+            0x48 => GmmCauseValue::Non3gppAccessTo5gcnNotAllowed,
+            0x49 => GmmCauseValue::ServingNetworkNotAuthorized,
+            0x4A => GmmCauseValue::TemporarilyNotAuthorizedForThisSnpn,
+            0x4B => GmmCauseValue::PermanentlyNotAuthorizedForThisSnpn,
+            0x4C => GmmCauseValue::NotAuthorizedForThisCagOrAuthorizedForCagCellsOnly,
+            0x4D => GmmCauseValue::WirelineAccessAreaNotAllowed,
+            0x4E => GmmCauseValue::PlmnNotAllowedToOperateAtPresentUeLocation,
+            0x4F => GmmCauseValue::UasServicesNotAllowed,
+            0x50 => GmmCauseValue::DisasterRoamingForDeterminedPlmnWithDisasterConditionNotAllowed,
+            0x5A => GmmCauseValue::PayloadWasNotForwarded,
+            0x5B => GmmCauseValue::DnnNotSupportedOrNotSubscribedInSlice,
+            0x5C => GmmCauseValue::InsufficientUserPlaneResourcesForPduSession,
+            0x5D => GmmCauseValue::OnboardingServicesTerminated,
+            0x5F => GmmCauseValue::SemanticallyIncorrectMessage,
+            0x60 => GmmCauseValue::InvalidMandatoryInformation,
+            0x61 => GmmCauseValue::MessageTypeNonExistentOrNotImplemented,
+            0x62 => GmmCauseValue::MessageTypeNotCompatibleWithProtocolState,
+            0x63 => GmmCauseValue::InformationElementNonExistentOrNotImplemented,
+            0x64 => GmmCauseValue::ConditionalIeError,
+            0x65 => GmmCauseValue::MessageNotCompatibleWithProtocolState,
+            0x6F => GmmCauseValue::ProtocolErrorUnspecified,
+            _ => GmmCauseValue::ProtocolErrorUnspecified,
+        }
+    }
+    
+    pub fn set_cause_value(&mut self, cause_value: GmmCauseValue) {
+        self.set_raw_cause_value(cause_value as u8);
+    }
+   
+}
 
 
 // ******************************************************************
