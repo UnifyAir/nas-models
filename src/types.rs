@@ -146,16 +146,16 @@ impl FiveGsRegistrationType {
         Self(reg_type as u8)
     }
 
-    pub fn get_registration_type(&self) -> Option<RegistrationType> {
+    pub fn get_registration_type(&self) -> RegistrationType {
         match self.get_raw_registration_type() {
-            0b001 => Some(RegistrationType::InitialRegistration),
-            0b010 => Some(RegistrationType::MobilityRegistrationUpdating),
-            0b011 => Some(RegistrationType::PeriodicRegistrationUpdating),
-            0b100 => Some(RegistrationType::EmergencyRegistration),
-            0b101 => Some(RegistrationType::SnpnOnboardingRegistration),
-            0b110 => Some(RegistrationType::DisasterRoamingMobilityRegistrationUpdating),
-            0b111 => Some(RegistrationType::DisasterRoamingInitialRegistration),
-            _ => None, // Handle invalid values
+            0b001 => RegistrationType::InitialRegistration,
+            0b010 => RegistrationType::MobilityRegistrationUpdating,
+            0b011 => RegistrationType::PeriodicRegistrationUpdating,
+            0b100 => RegistrationType::EmergencyRegistration,
+            0b101 => RegistrationType::SnpnOnboardingRegistration,
+            0b110 => RegistrationType::DisasterRoamingMobilityRegistrationUpdating,
+            0b111 => RegistrationType::DisasterRoamingInitialRegistration,
+            _ => RegistrationType::InitialRegistration,
         }
     }
     
@@ -302,6 +302,7 @@ pub enum MobileIdentity {
 
 // Manually-generated
 pub type Guti = FiveGGuti<Vec<u8>>;
+pub type Tmsi = u32;
 
 bitfield! {
     #[derive(Clone)]
