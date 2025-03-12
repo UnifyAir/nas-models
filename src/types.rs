@@ -253,21 +253,31 @@ impl FiveGsMobileIdentity {
         todo!()
     }
 
-    pub fn get_mobile_identity_type(&self) -> Option<IdentityType> {
-        FiveGsIdentityType(self.0.first()? & 0b00000111).get_identity_type()
+    pub fn get_mobile_identity_type(&self) -> IdentityType {
+        FiveGsIdentityType(self.0[0] & 0b00000111).get_identity_type()
     }
 
-    pub fn get_mobile_identity(self) -> Option<MobileIdentity> {
-        match self.get_mobile_identity_type()? {
+    pub fn get_mobile_identity(self) -> MobileIdentity {
+        match self.get_mobile_identity_type() {
             IdentityType::Suci => todo!(),
             IdentityType::FiveGGuti => {
-                Some(MobileIdentity::FiveGGuti(FiveGGuti(self.0)))
+                MobileIdentity::FiveGGuti(FiveGGuti(self.0))
             },
-            IdentityType::Imei => todo!(),
-            IdentityType::FiveGSTmsi => todo!(),
-            IdentityType::Imeisv => todo!(),
-            IdentityType::MacAddress => todo!(),
-            IdentityType::Eui64 => todo!(),
+            IdentityType::Imei => {
+                MobileIdentity::Imei(ImeiOrImeiSv(self.0))
+            },
+            IdentityType::FiveGSTmsi => {
+                MobileIdentity::FiveGSTmsi(FiveGTmsi(self.0))
+            },
+            IdentityType::Imeisv => {
+                MobileIdentity::Imeisv(ImeiOrImeiSv(self.0))
+            },
+            IdentityType::MacAddress => {
+                MobileIdentity::MacAddress(MacAddress(self.0))
+            },
+            IdentityType::Eui64 => {
+                MobileIdentity::Eui64(Eui64(self.0))
+            },
         }
     }
 
@@ -277,11 +287,21 @@ impl FiveGsMobileIdentity {
             MobileIdentity::FiveGGuti(guti) => {
                 self.0 = guti.0;
             },
-            MobileIdentity::Imei => todo!(),
-            MobileIdentity::FiveGSTmsi => todo!(),
-            MobileIdentity::Imeisv => todo!(),
-            MobileIdentity::MacAddress => todo!(),
-            MobileIdentity::Eui64 => todo!(),
+            MobileIdentity::Imei(imei) => {
+                self.0 = imei.0
+            },
+            MobileIdentity::FiveGSTmsi(five_gs_tmsi) => {
+                self.0 = five_gs_tmsi.0
+            },
+            MobileIdentity::Imeisv(imeisv) => {
+                self.0 = imeisv.0
+            },
+            MobileIdentity::MacAddress(mac_addr) => {
+                self.0 = mac_addr.0
+            },
+            MobileIdentity::Eui64(eui64) => {
+                self.0 = eui64.0
+            },
         }
     }
 }
@@ -289,15 +309,15 @@ impl FiveGsMobileIdentity {
 pub enum MobileIdentity {
     Suci,
     FiveGGuti(Guti),
-    Imei,
-    FiveGSTmsi,
-    Imeisv,
-    MacAddress,
-    Eui64,
+    Imei(ImeiOrImeiSv),
+    FiveGSTmsi(FiveGTmsi<Vec<u8>>),
+    Imeisv(ImeiOrImeiSv),
+    MacAddress(MacAddress),
+    Eui64(Eui64),
 }
 
 // ******************************************************************
-// FiveGGUTI
+// FiveGGUTI, Guti, Tmsi
 // ******************************************************************
 
 // Manually-generated
@@ -322,6 +342,102 @@ bitfield! {
     pub get_amf_set_id_contd, set_amf_set_id_contd: 55, 54;
     pub u32, get_5g_tmsi, set_5g_tmsi: 87, 56;
 }
+
+// ******************************************************************
+// IMEI
+// ******************************************************************
+
+// Manually-generated
+#[derive(Debug, Clone)]
+pub struct ImeiOrImeiSv(Vec<u8>);
+
+impl ImeiOrImeiSv {
+    pub fn get_identity_type(&self) -> FiveGsIdentityType {
+        FiveGsIdentityType(&self.0[0] & 0b00000111)
+    }
+
+    pub fn is_even_digit(&self) -> bool {
+        (self.0[0] & 0b00001000) == 0
+    }
+
+    pub fn get_imei_imeisv_data(&self) -> String {
+        let mut imei_or_imeisv = String::new();
+        let first_digit = (self.0[0] >> 4) & 0x0F;
+        imei_or_imeisv.push(char::from_digit(first_digit as u32, 10).unwrap_or('?'));
+        for &byte in &self.0[1..] {
+            let high_nibble = (byte >> 4) & 0x0F;
+            imei_or_imeisv.push(char::from_digit(high_nibble as u32, 10).unwrap_or('?'));
+            
+            let low_nibble = byte & 0x0F;
+            imei_or_imeisv.push(char::from_digit(low_nibble as u32, 10).unwrap_or('?'));
+        }
+        
+        if !self.is_even_digit() {
+            imei_or_imeisv.pop();
+        }
+        
+        imei_or_imeisv
+    }
+}
+
+
+// ******************************************************************
+// FiveGsTmsi
+// ******************************************************************
+
+// Manually-generated
+bitfield! {
+    #[derive(Clone)]
+    pub struct FiveGTmsi(MSB0 [u8]);
+    impl Debug;
+    u8;
+    pub from into FiveGsIdentityType, get_identity_type, set_identity_type: 2, 0;
+    pub get_amf_set_id, set_amf_set_id: 15, 8;
+    pub get_amf_pointer, set_amf_pointer: 21, 16;
+    pub get_amf_set_id_contd, set_amf_set_id_contd: 23, 22;
+    pub u32, get_5g_tmsi, set_5g_tmsi: 55, 24;
+}
+
+// ******************************************************************
+// MacAddress
+// ******************************************************************
+
+// Manually-generated
+#[derive(Debug, Clone)]
+pub struct MacAddress(Vec<u8>);
+
+impl MacAddress {
+    pub fn get_identity_type(&self) -> FiveGsIdentityType {
+        FiveGsIdentityType(&self.0[0] & 0b00000111)
+    }
+
+    pub fn can_be_used_as_equip_identifier(&self) -> bool {
+        (self.0[0] & 0b00001000) == 0
+    }
+
+    pub fn get_mac_addr_data(&self) -> &[u8] {
+        &self.0[2..8]
+    }
+}
+
+// ******************************************************************
+// Eui64
+// ******************************************************************
+
+// Manually-generated
+#[derive(Debug, Clone)]
+pub struct Eui64(Vec<u8>);
+
+impl Eui64 {
+    pub fn get_identity_type(&self) -> FiveGsIdentityType {
+        FiveGsIdentityType(&self.0[0] & 0b00000111)
+    }
+
+    pub fn get_eui64_data(&self) -> &[u8] {
+        &self.0[2..10]
+    }
+}
+
 
 // ******************************************************************
 // FiveGmmCapability
@@ -1286,16 +1402,16 @@ impl FiveGsIdentityType {
         Self(identity_type as u8)
     }
 
-    pub fn get_identity_type(&self) -> Option<IdentityType> {
+    pub fn get_identity_type(&self) -> IdentityType {
         match self.get_raw_identity_type() {
-            0b001 => Some(IdentityType::Suci),
-            0b010 => Some(IdentityType::FiveGGuti),
-            0b011 => Some(IdentityType::Imei),
-            0b100 => Some(IdentityType::FiveGSTmsi),
-            0b101 => Some(IdentityType::Imeisv),
-            0b110 => Some(IdentityType::MacAddress),
-            0b111 => Some(IdentityType::Eui64),
-            _ => None, // Handle invalid values
+            0b001 => IdentityType::Suci,
+            0b010 => IdentityType::FiveGGuti,
+            0b011 => IdentityType::Imei,
+            0b100 => IdentityType::FiveGSTmsi,
+            0b101 => IdentityType::Imeisv,
+            0b110 => IdentityType::MacAddress,
+            0b111 => IdentityType::Eui64,
+            _ => IdentityType::Suci,
         }
     }
     
