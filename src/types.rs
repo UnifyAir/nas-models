@@ -32,12 +32,10 @@
  * from 24501-h90.docx
  ******************************************************************************/
 
-
 use bitfield::bitfield;
+use derive_more::{From, Into};
 use tlv::prelude::*;
 use tlv_derive::{TlvDecode, TlvEncode};
-use derive_more::{Into, From};
-
 
 // ******************************************************************
 // ExtendedProtocolDiscriminator
@@ -46,7 +44,6 @@ use derive_more::{Into, From};
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ExtendedProtocolDiscriminator(u8);
-
 
 // ******************************************************************
 // SecurityHeaderType
@@ -84,16 +81,14 @@ impl SecurityHeaderType {
             0b0010 => Some(SecurityType::IntegrityProtectedAndCiphered),
             0b0011 => Some(SecurityType::IntegrityProtectedWithNew5gNasSecurityContext),
             0b0100 => Some(SecurityType::IntegrityProtectedAndCipheredWithNew5gNasSecurityContext),
-            _ => None, 
+            _ => None,
         }
     }
-    
+
     pub fn set_security_type_enum(&mut self, security_type: SecurityType) {
         self.set_raw_security_header_type(security_type as u8);
     }
-   
 }
-
 
 // ******************************************************************
 // SpareHalfOctet
@@ -103,7 +98,6 @@ impl SecurityHeaderType {
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct SpareHalfOctet(u8);
 
-
 // ******************************************************************
 // MessageType
 // ******************************************************************
@@ -111,7 +105,6 @@ pub struct SpareHalfOctet(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct MessageType(u8);
-
 
 // ******************************************************************
 // FiveGsRegistrationType
@@ -141,7 +134,6 @@ pub enum RegistrationType {
 }
 
 impl FiveGsRegistrationType {
-
     pub fn new(reg_type: RegistrationType) -> Self {
         Self(reg_type as u8)
     }
@@ -158,13 +150,11 @@ impl FiveGsRegistrationType {
             _ => RegistrationType::InitialRegistration,
         }
     }
-    
+
     pub fn set_registration_type_enum(&mut self, reg_type: RegistrationType) {
         self.set_raw_registration_type(reg_type as u8);
     }
-    
 }
-
 
 // ******************************************************************
 // KeySetIdentifier
@@ -189,12 +179,15 @@ pub enum SecurityContextType {
 }
 
 pub enum NasKeySetIdentifierValue {
-    KeyAvailable(u8), 
-    NoKeyAvailable, 
+    KeyAvailable(u8),
+    NoKeyAvailable,
 }
 
 impl KeySetIdentifier {
-    pub fn new(security_context_type: SecurityContextType, nas_key_set_identifier_value: NasKeySetIdentifierValue) -> KeySetIdentifier {
+    pub fn new(
+        security_context_type: SecurityContextType,
+        nas_key_set_identifier_value: NasKeySetIdentifierValue,
+    ) -> KeySetIdentifier {
         let mut result = Self(0);
         Self::set_security_context_type(&mut result, security_context_type);
         Self::set_key_set_identifier(&mut result, nas_key_set_identifier_value);
@@ -207,7 +200,7 @@ impl KeySetIdentifier {
             true => SecurityContextType::MappedSecurityContext,
         }
     }
-    
+
     pub fn set_security_context_type(&mut self, context_type: SecurityContextType) {
         match context_type {
             SecurityContextType::NativeSecurityContext => self.set_raw_security_context_type(false),
@@ -230,14 +223,13 @@ impl KeySetIdentifier {
                 if value <= 0b110 {
                     self.set_raw_nas_key_set_identifier(value);
                 }
-            },
+            }
             NasKeySetIdentifierValue::NoKeyAvailable => {
                 self.set_raw_nas_key_set_identifier(0b111);
             }
         }
     }
 }
-
 
 // ******************************************************************
 // FiveGsMobileIdentity
@@ -248,7 +240,6 @@ impl KeySetIdentifier {
 pub struct FiveGsMobileIdentity(Vec<u8>);
 
 impl FiveGsMobileIdentity {
-
     pub fn new() -> Self {
         todo!()
     }
@@ -259,55 +250,33 @@ impl FiveGsMobileIdentity {
 
     pub fn get_mobile_identity(self) -> MobileIdentity {
         match self.get_mobile_identity_type() {
-            IdentityType::Suci => todo!(),
-            IdentityType::FiveGGuti => {
-                MobileIdentity::FiveGGuti(FiveGGuti(self.0))
-            },
-            IdentityType::Imei => {
-                MobileIdentity::Imei(ImeiOrImeiSv(self.0))
-            },
-            IdentityType::FiveGSTmsi => {
-                MobileIdentity::FiveGSTmsi(FiveGTmsi(self.0))
-            },
-            IdentityType::Imeisv => {
-                MobileIdentity::Imeisv(ImeiOrImeiSv(self.0))
-            },
-            IdentityType::MacAddress => {
-                MobileIdentity::MacAddress(MacAddress(self.0))
-            },
-            IdentityType::Eui64 => {
-                MobileIdentity::Eui64(Eui64(self.0))
-            },
+            IdentityType::Suci => MobileIdentity::Suci(Suci(self.0)),
+            IdentityType::FiveGGuti => MobileIdentity::FiveGGuti(FiveGGuti(self.0)),
+            IdentityType::Imei => MobileIdentity::Imei(ImeiOrImeiSv(self.0)),
+            IdentityType::FiveGSTmsi => MobileIdentity::FiveGSTmsi(FiveGTmsi(self.0)),
+            IdentityType::Imeisv => MobileIdentity::Imeisv(ImeiOrImeiSv(self.0)),
+            IdentityType::MacAddress => MobileIdentity::MacAddress(MacAddress(self.0)),
+            IdentityType::Eui64 => MobileIdentity::Eui64(Eui64(self.0)),
         }
     }
 
     pub fn set_mobile_identity(&mut self, identity: MobileIdentity) {
         match identity {
-            MobileIdentity::Suci => todo!(),
+            MobileIdentity::Suci(suci) => self.0 = suci.0,
             MobileIdentity::FiveGGuti(guti) => {
                 self.0 = guti.0;
-            },
-            MobileIdentity::Imei(imei) => {
-                self.0 = imei.0
-            },
-            MobileIdentity::FiveGSTmsi(five_gs_tmsi) => {
-                self.0 = five_gs_tmsi.0
-            },
-            MobileIdentity::Imeisv(imeisv) => {
-                self.0 = imeisv.0
-            },
-            MobileIdentity::MacAddress(mac_addr) => {
-                self.0 = mac_addr.0
-            },
-            MobileIdentity::Eui64(eui64) => {
-                self.0 = eui64.0
-            },
+            }
+            MobileIdentity::Imei(imei) => self.0 = imei.0,
+            MobileIdentity::FiveGSTmsi(five_gs_tmsi) => self.0 = five_gs_tmsi.0,
+            MobileIdentity::Imeisv(imeisv) => self.0 = imeisv.0,
+            MobileIdentity::MacAddress(mac_addr) => self.0 = mac_addr.0,
+            MobileIdentity::Eui64(eui64) => self.0 = eui64.0,
         }
     }
 }
 
 pub enum MobileIdentity {
-    Suci,
+    Suci(Suci),
     FiveGGuti(Guti),
     Imei(ImeiOrImeiSv),
     FiveGSTmsi(FiveGTmsi<Vec<u8>>),
@@ -367,19 +336,18 @@ impl ImeiOrImeiSv {
         for &byte in &self.0[1..] {
             let high_nibble = (byte >> 4) & 0x0F;
             imei_or_imeisv.push(char::from_digit(high_nibble as u32, 10).unwrap_or('?'));
-            
+
             let low_nibble = byte & 0x0F;
             imei_or_imeisv.push(char::from_digit(low_nibble as u32, 10).unwrap_or('?'));
         }
-        
+
         if !self.is_even_digit() {
             imei_or_imeisv.pop();
         }
-        
+
         imei_or_imeisv
     }
 }
-
 
 // ******************************************************************
 // FiveGsTmsi
@@ -450,7 +418,7 @@ impl Suci {
     pub fn get_identity_type(&self) -> FiveGsIdentityType {
         FiveGsIdentityType(self.0[0] & 0b00000111)
     }
-    
+
     pub fn get_supi_format(&self) -> SupiFormat {
         let format_bits = self.0[0] & 0b01110000;
         match format_bits {
@@ -458,20 +426,25 @@ impl Suci {
             0b001 => SupiFormat::NetworkSpecificIdentifier,
             0b010 => SupiFormat::Gci,
             0b011 => SupiFormat::Gli,
-            _ => SupiFormat::Imsi, 
+            _ => SupiFormat::Imsi,
         }
     }
 
-    pub fn get_suci_data(&self) -> SuciData{
+    pub fn get_suci_data(self) -> SuciData {
         match self.get_supi_format() {
-            SupiFormat::Imsi => { 
-                return SuciData::Imsi(Imsi(&self.0));
+            SupiFormat::Imsi => {
+                return SuciData::Imsi(Imsi(self.0));
+            }
+            SupiFormat::NetworkSpecificIdentifier => {
+                return SuciData::Nsi(NsiOrGciOrGli(self.0));
             },
-            SupiFormat::NetworkSpecificIdentifier | SupiFormat::Gci | SupiFormat::Gli => {
-                todo!()
+            SupiFormat::Gci => {
+                return SuciData::Gci(NsiOrGciOrGli(self.0));
+            },
+            SupiFormat::Gli => {
+                return SuciData::Gli(NsiOrGciOrGli(self.0));
             },
         }
-
     }
 }
 
@@ -490,7 +463,7 @@ impl From<u8> for SupiFormat {
             0b001 => SupiFormat::NetworkSpecificIdentifier,
             0b010 => SupiFormat::Gci,
             0b011 => SupiFormat::Gli,
-            _ => SupiFormat::Imsi, // Default case
+            _ => SupiFormat::Imsi,
         }
     }
 }
@@ -502,37 +475,36 @@ impl From<SupiFormat> for u8 {
 }
 
 #[derive(Debug, Clone)]
-pub enum SuciData<'a>{
-    Imsi(Imsi<'a>),
-    Nsi,
-    Gci,
-    Gli
+pub enum SuciData {
+    Imsi(Imsi),
+    Nsi(NsiOrGciOrGli),
+    Gci(NsiOrGciOrGli),
+    Gli(NsiOrGciOrGli),
 }
 
 #[derive(Debug, Clone)]
-pub struct Imsi<'a>(&'a [u8]);
+pub struct Imsi(Vec<u8>);
 
-impl<'a> Imsi<'a>{
-    pub fn get_imsi_header(&self) -> ImsiHeader<&'a [u8]>{
+impl Imsi {
+    pub fn get_imsi_header(&self) -> ImsiHeader<&[u8]> {
         ImsiHeader(&self.0[0..8])
     }
 
     pub fn get_msin(&self) -> String {
-        
         let mut msin = String::new();
-        
+
         for &byte in &self.0[8..] {
             let high_nibble = (byte >> 4) & 0x0F;
-            if high_nibble != 0x0F { 
+            if high_nibble != 0x0F {
                 msin.push(char::from_digit(high_nibble as u32, 16).unwrap_or('?'));
             }
-            
+
             let low_nibble = byte & 0x0F;
-            if low_nibble != 0x0F { 
+            if low_nibble != 0x0F {
                 msin.push(char::from_digit(low_nibble as u32, 16).unwrap_or('?'));
             }
         }
-        
+
         msin
     }
 }
@@ -558,6 +530,42 @@ bitfield! {
     pub get_home_network_pki_value, set_home_network_pki_value: 63, 56;
 }
 
+#[derive(Debug, Clone)]
+pub struct NsiOrGciOrGli(Vec<u8>);
+
+impl NsiOrGciOrGli {
+    pub fn get_nsi_gci_gli_header(&self) -> NsiOrGciOrGliHeader {
+        NsiOrGciOrGliHeader(self.0[0])
+    }
+
+    pub fn get_suci_nai(&self) -> String {
+        let mut suci_nai = String::new();
+
+        for &byte in &self.0[8..] {
+            let high_nibble = (byte >> 4) & 0x0F;
+            if high_nibble != 0x0F {
+                suci_nai.push(char::from_digit(high_nibble as u32, 16).unwrap_or('?'));
+            }
+
+            let low_nibble = byte & 0x0F;
+            if low_nibble != 0x0F {
+                suci_nai.push(char::from_digit(low_nibble as u32, 16).unwrap_or('?'));
+            }
+        }
+
+        suci_nai
+    }
+}
+
+bitfield! {
+    #[derive(Clone)]
+    pub struct NsiOrGciOrGliHeader(u8);
+    impl Debug;
+    u8;
+    pub from into FiveGsIdentityType, get_identity_type, set_identity_type: 2, 0;
+    pub from into SupiFormat, get_supi_format, set_supi_format: 6, 4;
+}
+
 // ******************************************************************
 // FiveGmmCapability
 // ******************************************************************
@@ -565,7 +573,6 @@ bitfield! {
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGmmCapability(Vec<u8>);
-
 
 // ******************************************************************
 // UeSecurityCapability
@@ -579,15 +586,15 @@ impl UeSecurityCapability {
     pub fn new(ea_ia: (EA, IA), eea_eia: Option<(EEA, EIA)>, length: usize) -> Self {
         // Todo: find a better solution for this.
         let mut result = vec![0; length];
-        result[0] = ea_ia.0.0;
-        result[1] = ea_ia.1.0;
+        result[0] = ea_ia.0 .0;
+        result[1] = ea_ia.1 .0;
         if let Some((eea_val, eia_val)) = eea_eia {
             result[2] = eea_val.0;
             result[3] = eia_val.0;
         }
         Self(result)
     }
-    
+
     pub fn get_ea_ia(&self) -> (EA, IA) {
         // safety: index out of bound is handled prior to this call in Tlv Decode
         (EA(self.0[0]), IA(self.0[1]))
@@ -595,7 +602,7 @@ impl UeSecurityCapability {
 
     pub fn get_eea_eia(&self) -> Option<(EEA, EIA)> {
         if self.0.len() >= 3 {
-            return Some((EEA(self.0[2]), EIA(self.0[3])))
+            return Some((EEA(self.0[2]), EIA(self.0[3])));
         }
         None
     }
@@ -665,7 +672,6 @@ bitfield! {
     pub get_eia7_supported, set_eia7_supported: 0;
 }
 
-
 // ******************************************************************
 // Nssai
 // ******************************************************************
@@ -673,7 +679,6 @@ bitfield! {
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct Nssai(Vec<u8>);
-
 
 // ******************************************************************
 // FiveGsTrackingAreaIdentity
@@ -683,7 +688,6 @@ pub struct Nssai(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGsTrackingAreaIdentity(Vec<u8>);
 
-
 // ******************************************************************
 // S1UeNetworkCapability
 // ******************************************************************
@@ -691,7 +695,6 @@ pub struct FiveGsTrackingAreaIdentity(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct S1UeNetworkCapability(Vec<u8>);
-
 
 // ******************************************************************
 // UplinkDataStatus
@@ -701,7 +704,6 @@ pub struct S1UeNetworkCapability(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct UplinkDataStatus(Vec<u8>);
 
-
 // ******************************************************************
 // PduSessionStatus
 // ******************************************************************
@@ -709,7 +711,6 @@ pub struct UplinkDataStatus(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PduSessionStatus(Vec<u8>);
-
 
 // ******************************************************************
 // MicoIndication
@@ -719,7 +720,6 @@ pub struct PduSessionStatus(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct MicoIndication(u8);
 
-
 // ******************************************************************
 // UeStatus
 // ******************************************************************
@@ -727,7 +727,6 @@ pub struct MicoIndication(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct UeStatus(u8);
-
 
 // ******************************************************************
 // AllowedPduSessionStatus
@@ -737,7 +736,6 @@ pub struct UeStatus(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AllowedPduSessionStatus(Vec<u8>);
 
-
 // ******************************************************************
 // UeUsageSetting
 // ******************************************************************
@@ -745,7 +743,6 @@ pub struct AllowedPduSessionStatus(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct UeUsageSetting(u8);
-
 
 // ******************************************************************
 // FiveGsDrxParameters
@@ -755,7 +752,6 @@ pub struct UeUsageSetting(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGsDrxParameters(u8);
 
-
 // ******************************************************************
 // EpsNasMessageContainer
 // ******************************************************************
@@ -763,7 +759,6 @@ pub struct FiveGsDrxParameters(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct EpsNasMessageContainer(Vec<u8>);
-
 
 // ******************************************************************
 // LadnIndication
@@ -773,7 +768,6 @@ pub struct EpsNasMessageContainer(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct LadnIndication(Vec<u8>);
 
-
 // ******************************************************************
 // PayloadContainerType
 // ******************************************************************
@@ -781,7 +775,6 @@ pub struct LadnIndication(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PayloadContainerType(u8);
-
 
 // ******************************************************************
 // PayloadContainer
@@ -791,7 +784,6 @@ pub struct PayloadContainerType(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PayloadContainer(Vec<u8>);
 
-
 // ******************************************************************
 // NetworkSlicingIndication
 // ******************************************************************
@@ -799,7 +791,6 @@ pub struct PayloadContainer(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct NetworkSlicingIndication(u8);
-
 
 // ******************************************************************
 // FiveGsUpdateType
@@ -809,7 +800,6 @@ pub struct NetworkSlicingIndication(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGsUpdateType(u8);
 
-
 // ******************************************************************
 // MobileStationClassmark2
 // ******************************************************************
@@ -817,7 +807,6 @@ pub struct FiveGsUpdateType(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct MobileStationClassmark2(Vec<u8>);
-
 
 // ******************************************************************
 // SupportedCodecList
@@ -827,7 +816,6 @@ pub struct MobileStationClassmark2(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct SupportedCodecList(Vec<u8>);
 
-
 // ******************************************************************
 // MessageContainer
 // ******************************************************************
@@ -835,7 +823,6 @@ pub struct SupportedCodecList(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct MessageContainer(Vec<u8>);
-
 
 // ******************************************************************
 // EpsBearerContextStatus
@@ -845,7 +832,6 @@ pub struct MessageContainer(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct EpsBearerContextStatus(Vec<u8>);
 
-
 // ******************************************************************
 // ExtendedDrxParameters
 // ******************************************************************
@@ -853,7 +839,6 @@ pub struct EpsBearerContextStatus(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ExtendedDrxParameters(Vec<u8>);
-
 
 // ******************************************************************
 // GprsTimer3
@@ -863,7 +848,6 @@ pub struct ExtendedDrxParameters(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct GprsTimer3(u8);
 
-
 // ******************************************************************
 // UeRadioCapabilityId
 // ******************************************************************
@@ -871,7 +855,6 @@ pub struct GprsTimer3(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct UeRadioCapabilityId(Vec<u8>);
-
 
 // ******************************************************************
 // MappedNssai
@@ -881,7 +864,6 @@ pub struct UeRadioCapabilityId(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct MappedNssai(Vec<u8>);
 
-
 // ******************************************************************
 // AdditionalInformationRequested
 // ******************************************************************
@@ -889,7 +871,6 @@ pub struct MappedNssai(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AdditionalInformationRequested(u8);
-
 
 // ******************************************************************
 // WusAssistanceInformation
@@ -899,7 +880,6 @@ pub struct AdditionalInformationRequested(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct WusAssistanceInformation(Vec<u8>);
 
-
 // ******************************************************************
 // N5gcIndication
 // ******************************************************************
@@ -907,7 +887,6 @@ pub struct WusAssistanceInformation(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct N5gcIndication(u8);
-
 
 // ******************************************************************
 // NbN1ModeDrxParameters
@@ -917,7 +896,6 @@ pub struct N5gcIndication(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct NbN1ModeDrxParameters(u8);
 
-
 // ******************************************************************
 // UeRequestType
 // ******************************************************************
@@ -925,7 +903,6 @@ pub struct NbN1ModeDrxParameters(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct UeRequestType(u8);
-
 
 // ******************************************************************
 // PagingRestriction
@@ -935,7 +912,6 @@ pub struct UeRequestType(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PagingRestriction(Vec<u8>);
 
-
 // ******************************************************************
 // ServiceLevelAaContainer
 // ******************************************************************
@@ -943,7 +919,6 @@ pub struct PagingRestriction(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ServiceLevelAaContainer(Vec<u8>);
-
 
 // ******************************************************************
 // Nid
@@ -953,7 +928,6 @@ pub struct ServiceLevelAaContainer(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct Nid(Vec<u8>);
 
-
 // ******************************************************************
 // PlmnIdentity
 // ******************************************************************
@@ -961,7 +935,6 @@ pub struct Nid(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PlmnIdentity(Vec<u8>);
-
 
 // ******************************************************************
 // PeipsAssistanceInformation
@@ -971,7 +944,6 @@ pub struct PlmnIdentity(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PeipsAssistanceInformation(Vec<u8>);
 
-
 // ******************************************************************
 // FiveGsRegistrationResult
 // ******************************************************************
@@ -979,7 +951,6 @@ pub struct PeipsAssistanceInformation(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGsRegistrationResult(u8);
-
 
 // ******************************************************************
 // PlmnList
@@ -989,7 +960,6 @@ pub struct FiveGsRegistrationResult(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PlmnList(Vec<u8>);
 
-
 // ******************************************************************
 // FiveGsTrackingAreaIdentityList
 // ******************************************************************
@@ -997,7 +967,6 @@ pub struct PlmnList(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGsTrackingAreaIdentityList(Vec<u8>);
-
 
 // ******************************************************************
 // RejectedNssai
@@ -1007,7 +976,6 @@ pub struct FiveGsTrackingAreaIdentityList(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct RejectedNssai(Vec<u8>);
 
-
 // ******************************************************************
 // FiveGsNetworkFeatureSupport
 // ******************************************************************
@@ -1015,7 +983,6 @@ pub struct RejectedNssai(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGsNetworkFeatureSupport(Vec<u8>);
-
 
 // ******************************************************************
 // PduSessionReactivationResult
@@ -1025,7 +992,6 @@ pub struct FiveGsNetworkFeatureSupport(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PduSessionReactivationResult(Vec<u8>);
 
-
 // ******************************************************************
 // PduSessionReactivationResultErrorCause
 // ******************************************************************
@@ -1033,7 +999,6 @@ pub struct PduSessionReactivationResult(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PduSessionReactivationResultErrorCause(Vec<u8>);
-
 
 // ******************************************************************
 // LadnInformation
@@ -1043,7 +1008,6 @@ pub struct PduSessionReactivationResultErrorCause(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct LadnInformation(Vec<u8>);
 
-
 // ******************************************************************
 // ServiceAreaList
 // ******************************************************************
@@ -1051,7 +1015,6 @@ pub struct LadnInformation(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ServiceAreaList(Vec<u8>);
-
 
 // ******************************************************************
 // GprsTimer2
@@ -1061,7 +1024,6 @@ pub struct ServiceAreaList(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct GprsTimer2(u8);
 
-
 // ******************************************************************
 // EmergencyNumberList
 // ******************************************************************
@@ -1069,7 +1031,6 @@ pub struct GprsTimer2(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct EmergencyNumberList(Vec<u8>);
-
 
 // ******************************************************************
 // ExtendedEmergencyNumberList
@@ -1079,7 +1040,6 @@ pub struct EmergencyNumberList(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ExtendedEmergencyNumberList(Vec<u8>);
 
-
 // ******************************************************************
 // SorTransparentContainer
 // ******************************************************************
@@ -1087,7 +1047,6 @@ pub struct ExtendedEmergencyNumberList(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct SorTransparentContainer(Vec<u8>);
-
 
 // ******************************************************************
 // EapMessage
@@ -1097,7 +1056,6 @@ pub struct SorTransparentContainer(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct EapMessage(Vec<u8>);
 
-
 // ******************************************************************
 // NssaiInclusionMode
 // ******************************************************************
@@ -1105,7 +1063,6 @@ pub struct EapMessage(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct NssaiInclusionMode(u8);
-
 
 // ******************************************************************
 // OperatorDefinedAccessCategoryDefinitions
@@ -1115,7 +1072,6 @@ pub struct NssaiInclusionMode(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct OperatorDefinedAccessCategoryDefinitions(Vec<u8>);
 
-
 // ******************************************************************
 // Non3gppNwProvidedPolicies
 // ******************************************************************
@@ -1123,7 +1079,6 @@ pub struct OperatorDefinedAccessCategoryDefinitions(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct Non3gppNwProvidedPolicies(u8);
-
 
 // ******************************************************************
 // UeRadioCapabilityIdDeletionIndication
@@ -1133,7 +1088,6 @@ pub struct Non3gppNwProvidedPolicies(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct UeRadioCapabilityIdDeletionIndication(u8);
 
-
 // ******************************************************************
 // CipheringKeyData
 // ******************************************************************
@@ -1141,7 +1095,6 @@ pub struct UeRadioCapabilityIdDeletionIndication(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct CipheringKeyData(Vec<u8>);
-
 
 // ******************************************************************
 // CagInformationList
@@ -1151,7 +1104,6 @@ pub struct CipheringKeyData(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct CagInformationList(Vec<u8>);
 
-
 // ******************************************************************
 // Truncated5gSTmsiConfiguration
 // ******************************************************************
@@ -1159,7 +1111,6 @@ pub struct CagInformationList(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct Truncated5gSTmsiConfiguration(u8);
-
 
 // ******************************************************************
 // ExtendedRejectedNssai
@@ -1169,7 +1120,6 @@ pub struct Truncated5gSTmsiConfiguration(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ExtendedRejectedNssai(Vec<u8>);
 
-
 // ******************************************************************
 // FiveGsAdditionalRequestResult
 // ******************************************************************
@@ -1177,7 +1127,6 @@ pub struct ExtendedRejectedNssai(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGsAdditionalRequestResult(u8);
-
 
 // ******************************************************************
 // NssrgInformation
@@ -1187,7 +1136,6 @@ pub struct FiveGsAdditionalRequestResult(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct NssrgInformation(Vec<u8>);
 
-
 // ******************************************************************
 // RegistrationWaitRange
 // ******************************************************************
@@ -1195,7 +1143,6 @@ pub struct NssrgInformation(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct RegistrationWaitRange(Vec<u8>);
-
 
 // ******************************************************************
 // ListOfPlmnsToBeUsedInDisasterCondition
@@ -1205,7 +1152,6 @@ pub struct RegistrationWaitRange(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ListOfPlmnsToBeUsedInDisasterCondition(Vec<u8>);
 
-
 // ******************************************************************
 // ExtendedCagInformationList
 // ******************************************************************
@@ -1214,7 +1160,6 @@ pub struct ListOfPlmnsToBeUsedInDisasterCondition(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ExtendedCagInformationList(Vec<u8>);
 
-
 // ******************************************************************
 // NsagInformation
 // ******************************************************************
@@ -1222,7 +1167,6 @@ pub struct ExtendedCagInformationList(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct NsagInformation(Vec<u8>);
-
 
 // ******************************************************************
 // FiveGmmCause
@@ -1347,13 +1291,11 @@ impl FiveGmmCause {
             _ => GmmCauseValue::ProtocolErrorUnspecified,
         }
     }
-    
+
     pub fn set_cause_value(&mut self, cause_value: GmmCauseValue) {
         self.set_raw_cause_value(cause_value as u8);
     }
-   
 }
-
 
 // ******************************************************************
 // DeRegistrationType
@@ -1363,7 +1305,6 @@ impl FiveGmmCause {
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct DeRegistrationType(u8);
 
-
 // ******************************************************************
 // ServiceType
 // ******************************************************************
@@ -1371,7 +1312,6 @@ pub struct DeRegistrationType(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ServiceType(u8);
-
 
 // ******************************************************************
 // ConfigurationUpdateIndication
@@ -1381,7 +1321,6 @@ pub struct ServiceType(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ConfigurationUpdateIndication(u8);
 
-
 // ******************************************************************
 // NetworkName
 // ******************************************************************
@@ -1389,7 +1328,6 @@ pub struct ConfigurationUpdateIndication(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct NetworkName(Vec<u8>);
-
 
 // ******************************************************************
 // TimeZone
@@ -1399,7 +1337,6 @@ pub struct NetworkName(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct TimeZone(u8);
 
-
 // ******************************************************************
 // TimeZoneAndTime
 // ******************************************************************
@@ -1407,7 +1344,6 @@ pub struct TimeZone(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct TimeZoneAndTime(Vec<u8>);
-
 
 // ******************************************************************
 // DaylightSavingTime
@@ -1417,7 +1353,6 @@ pub struct TimeZoneAndTime(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct DaylightSavingTime(u8);
 
-
 // ******************************************************************
 // SmsIndication
 // ******************************************************************
@@ -1425,7 +1360,6 @@ pub struct DaylightSavingTime(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct SmsIndication(u8);
-
 
 // ******************************************************************
 // AdditionalConfigurationIndication
@@ -1435,7 +1369,6 @@ pub struct SmsIndication(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AdditionalConfigurationIndication(u8);
 
-
 // ******************************************************************
 // PriorityIndicator
 // ******************************************************************
@@ -1443,7 +1376,6 @@ pub struct AdditionalConfigurationIndication(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PriorityIndicator(u8);
-
 
 // ******************************************************************
 // Abba
@@ -1453,7 +1385,6 @@ pub struct PriorityIndicator(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct Abba(Vec<u8>);
 
-
 // ******************************************************************
 // AuthenticationParameterRand
 // ******************************************************************
@@ -1461,7 +1392,6 @@ pub struct Abba(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AuthenticationParameterRand(Vec<u8>);
-
 
 // ******************************************************************
 // AuthenticationParameterAutn
@@ -1471,7 +1401,6 @@ pub struct AuthenticationParameterRand(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AuthenticationParameterAutn(Vec<u8>);
 
-
 // ******************************************************************
 // AuthenticationResponseParameter
 // ******************************************************************
@@ -1480,7 +1409,6 @@ pub struct AuthenticationParameterAutn(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AuthenticationResponseParameter(Vec<u8>);
 
-
 // ******************************************************************
 // AuthenticationFailureParameter
 // ******************************************************************
@@ -1488,7 +1416,6 @@ pub struct AuthenticationResponseParameter(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AuthenticationFailureParameter(Vec<u8>);
-
 
 // ******************************************************************
 // FiveGsIdentityType
@@ -1533,13 +1460,11 @@ impl FiveGsIdentityType {
             _ => IdentityType::Suci,
         }
     }
-    
+
     pub fn set_identity_type_enum(&mut self, identity_type: IdentityType) {
         self.set_raw_identity_type(identity_type as u8);
     }
-    
 }
-
 
 // ******************************************************************
 // SecurityAlgorithms
@@ -1549,7 +1474,6 @@ impl FiveGsIdentityType {
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct SecurityAlgorithms(u8);
 
-
 // ******************************************************************
 // ImeisvRequest
 // ******************************************************************
@@ -1557,7 +1481,6 @@ pub struct SecurityAlgorithms(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ImeisvRequest(u8);
-
 
 // ******************************************************************
 // EpsNasSecurityAlgorithms
@@ -1567,7 +1490,6 @@ pub struct ImeisvRequest(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct EpsNasSecurityAlgorithms(u8);
 
-
 // ******************************************************************
 // Additional5gSecurityInformation
 // ******************************************************************
@@ -1575,7 +1497,6 @@ pub struct EpsNasSecurityAlgorithms(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct Additional5gSecurityInformation(u8);
-
 
 // ******************************************************************
 // S1UeSecurityCapability
@@ -1585,7 +1506,6 @@ pub struct Additional5gSecurityInformation(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct S1UeSecurityCapability(Vec<u8>);
 
-
 // ******************************************************************
 // AccessType
 // ******************************************************************
@@ -1593,7 +1513,6 @@ pub struct S1UeSecurityCapability(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AccessType(u8);
-
 
 // ******************************************************************
 // PduSessionIdentity2
@@ -1603,7 +1522,6 @@ pub struct AccessType(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PduSessionIdentity2(u8);
 
-
 // ******************************************************************
 // RequestType
 // ******************************************************************
@@ -1611,7 +1529,6 @@ pub struct PduSessionIdentity2(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct RequestType(u8);
-
 
 // ******************************************************************
 // SNssai
@@ -1621,7 +1538,6 @@ pub struct RequestType(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct SNssai(Vec<u8>);
 
-
 // ******************************************************************
 // Dnn
 // ******************************************************************
@@ -1629,7 +1545,6 @@ pub struct SNssai(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct Dnn(Vec<u8>);
-
 
 // ******************************************************************
 // AdditionalInformation
@@ -1639,7 +1554,6 @@ pub struct Dnn(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AdditionalInformation(Vec<u8>);
 
-
 // ******************************************************************
 // MaPduSessionInformation
 // ******************************************************************
@@ -1647,7 +1561,6 @@ pub struct AdditionalInformation(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct MaPduSessionInformation(u8);
-
 
 // ******************************************************************
 // ReleaseAssistanceIndication
@@ -1657,7 +1570,6 @@ pub struct MaPduSessionInformation(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ReleaseAssistanceIndication(u8);
 
-
 // ******************************************************************
 // PduSessionIdentity
 // ******************************************************************
@@ -1665,7 +1577,6 @@ pub struct ReleaseAssistanceIndication(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PduSessionIdentity(u8);
-
 
 // ******************************************************************
 // ProcedureTransactionIdentity
@@ -1675,7 +1586,6 @@ pub struct PduSessionIdentity(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ProcedureTransactionIdentity(u8);
 
-
 // ******************************************************************
 // IntegrityProtectionMaximumDataRate
 // ******************************************************************
@@ -1683,7 +1593,6 @@ pub struct ProcedureTransactionIdentity(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct IntegrityProtectionMaximumDataRate(Vec<u8>);
-
 
 // ******************************************************************
 // PduSessionType
@@ -1693,7 +1602,6 @@ pub struct IntegrityProtectionMaximumDataRate(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PduSessionType(u8);
 
-
 // ******************************************************************
 // SscMode
 // ******************************************************************
@@ -1701,7 +1609,6 @@ pub struct PduSessionType(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct SscMode(u8);
-
 
 // ******************************************************************
 // FiveGsmCapability
@@ -1711,7 +1618,6 @@ pub struct SscMode(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGsmCapability(Vec<u8>);
 
-
 // ******************************************************************
 // MaximumNumberOfSupportedPacketFilters
 // ******************************************************************
@@ -1719,7 +1625,6 @@ pub struct FiveGsmCapability(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct MaximumNumberOfSupportedPacketFilters(Vec<u8>);
-
 
 // ******************************************************************
 // AlwaysOnPduSessionRequested
@@ -1729,7 +1634,6 @@ pub struct MaximumNumberOfSupportedPacketFilters(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AlwaysOnPduSessionRequested(u8);
 
-
 // ******************************************************************
 // SmPduDnRequestContainer
 // ******************************************************************
@@ -1737,7 +1641,6 @@ pub struct AlwaysOnPduSessionRequested(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct SmPduDnRequestContainer(Vec<u8>);
-
 
 // ******************************************************************
 // ExtendedProtocolConfigurationOptions
@@ -1747,7 +1650,6 @@ pub struct SmPduDnRequestContainer(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ExtendedProtocolConfigurationOptions(Vec<u8>);
 
-
 // ******************************************************************
 // IpHeaderCompressionConfiguration
 // ******************************************************************
@@ -1755,7 +1657,6 @@ pub struct ExtendedProtocolConfigurationOptions(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct IpHeaderCompressionConfiguration(Vec<u8>);
-
 
 // ******************************************************************
 // DsTtEthernetPortMacAddress
@@ -1765,7 +1666,6 @@ pub struct IpHeaderCompressionConfiguration(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct DsTtEthernetPortMacAddress(Vec<u8>);
 
-
 // ******************************************************************
 // UeDsTtResidenceTime
 // ******************************************************************
@@ -1773,7 +1673,6 @@ pub struct DsTtEthernetPortMacAddress(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct UeDsTtResidenceTime(Vec<u8>);
-
 
 // ******************************************************************
 // PortManagementInformationContainer
@@ -1783,7 +1682,6 @@ pub struct UeDsTtResidenceTime(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PortManagementInformationContainer(Vec<u8>);
 
-
 // ******************************************************************
 // EthernetHeaderCompressionConfiguration
 // ******************************************************************
@@ -1791,7 +1689,6 @@ pub struct PortManagementInformationContainer(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct EthernetHeaderCompressionConfiguration(u8);
-
 
 // ******************************************************************
 // PduAddress
@@ -1801,7 +1698,6 @@ pub struct EthernetHeaderCompressionConfiguration(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PduAddress(Vec<u8>);
 
-
 // ******************************************************************
 // RequestedMbsContainer
 // ******************************************************************
@@ -1809,7 +1705,6 @@ pub struct PduAddress(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct RequestedMbsContainer(Vec<u8>);
-
 
 // ******************************************************************
 // PduSessionPairId
@@ -1819,7 +1714,6 @@ pub struct RequestedMbsContainer(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct PduSessionPairId(u8);
 
-
 // ******************************************************************
 // Rsn
 // ******************************************************************
@@ -1827,7 +1721,6 @@ pub struct PduSessionPairId(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct Rsn(u8);
-
 
 // ******************************************************************
 // QosRules
@@ -1837,7 +1730,6 @@ pub struct Rsn(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct QosRules(Vec<u8>);
 
-
 // ******************************************************************
 // SessionAmbr
 // ******************************************************************
@@ -1845,7 +1737,6 @@ pub struct QosRules(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct SessionAmbr(Vec<u8>);
-
 
 // ******************************************************************
 // FiveGsmCause
@@ -1855,7 +1746,6 @@ pub struct SessionAmbr(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGsmCause(u8);
 
-
 // ******************************************************************
 // GprsTimer
 // ******************************************************************
@@ -1863,7 +1753,6 @@ pub struct FiveGsmCause(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct GprsTimer(u8);
-
 
 // ******************************************************************
 // AlwaysOnPduSessionIndication
@@ -1873,7 +1762,6 @@ pub struct GprsTimer(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AlwaysOnPduSessionIndication(u8);
 
-
 // ******************************************************************
 // MappedEpsBearerContexts
 // ******************************************************************
@@ -1881,7 +1769,6 @@ pub struct AlwaysOnPduSessionIndication(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct MappedEpsBearerContexts(Vec<u8>);
-
 
 // ******************************************************************
 // QosFlowDescriptions
@@ -1891,7 +1778,6 @@ pub struct MappedEpsBearerContexts(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct QosFlowDescriptions(Vec<u8>);
 
-
 // ******************************************************************
 // FiveGsmNetworkFeatureSupport
 // ******************************************************************
@@ -1899,7 +1785,6 @@ pub struct QosFlowDescriptions(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGsmNetworkFeatureSupport(Vec<u8>);
-
 
 // ******************************************************************
 // ServingPlmnRateControl
@@ -1909,7 +1794,6 @@ pub struct FiveGsmNetworkFeatureSupport(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ServingPlmnRateControl(Vec<u8>);
 
-
 // ******************************************************************
 // AtsssContainer
 // ******************************************************************
@@ -1917,7 +1801,6 @@ pub struct ServingPlmnRateControl(Vec<u8>);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AtsssContainer(Vec<u8>);
-
 
 // ******************************************************************
 // ControlPlaneOnlyIndication
@@ -1927,7 +1810,6 @@ pub struct AtsssContainer(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ControlPlaneOnlyIndication(u8);
 
-
 // ******************************************************************
 // ReceivedMbsContainer
 // ******************************************************************
@@ -1935,7 +1817,6 @@ pub struct ControlPlaneOnlyIndication(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ReceivedMbsContainer(Vec<u8>);
-
 
 // ******************************************************************
 // AllowedSscMode
@@ -1945,7 +1826,6 @@ pub struct ReceivedMbsContainer(Vec<u8>);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct AllowedSscMode(u8);
 
-
 // ******************************************************************
 // FiveGsmCongestionReAttemptIndicator
 // ******************************************************************
@@ -1954,7 +1834,6 @@ pub struct AllowedSscMode(u8);
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct FiveGsmCongestionReAttemptIndicator(u8);
 
-
 // ******************************************************************
 // ReAttemptIndicator
 // ******************************************************************
@@ -1962,7 +1841,6 @@ pub struct FiveGsmCongestionReAttemptIndicator(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ReAttemptIndicator(u8);
-
 
 // ******************************************************************
 // HeaderCompressionConfiguration
