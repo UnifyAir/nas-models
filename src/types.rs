@@ -333,9 +333,9 @@ bitfield! {
     pub get_mcc_digit_1, set_mcc_digit_1: 11, 8;
     pub get_mcc_digit_2, set_mcc_digit_2: 15, 12;
     pub get_mcc_digit_3, set_mcc_digit_3: 19, 16;
-    pub get_mnc_digit_1, set_mnc_digit_1: 23, 20;
-    pub get_mnc_digit_2, set_mnc_digit_2: 27, 24;
-    pub get_mnc_digit_3, set_mnc_digit_3: 31, 28;
+    pub get_mnc_digit_3, set_mnc_digit_3: 23, 20;
+    pub get_mnc_digit_1, set_mnc_digit_1: 27, 24;
+    pub get_mnc_digit_2, set_mnc_digit_2: 31, 28;
     pub get_amf_region_id, set_amf_region_id: 39, 32;
     pub get_amf_set_id, set_amf_set_id: 47, 40;
     pub get_amf_pointer, set_amf_pointer: 53, 48;
@@ -438,6 +438,125 @@ impl Eui64 {
     }
 }
 
+// ******************************************************************
+// Suci
+// ******************************************************************
+
+// Manually-generated
+#[derive(Debug, Clone)]
+pub struct Suci(Vec<u8>);
+
+impl Suci {
+    pub fn get_identity_type(&self) -> FiveGsIdentityType {
+        FiveGsIdentityType(self.0[0] & 0b00000111)
+    }
+    
+    pub fn get_supi_format(&self) -> SupiFormat {
+        let format_bits = self.0[0] & 0b01110000;
+        match format_bits {
+            0b000 => SupiFormat::Imsi,
+            0b001 => SupiFormat::NetworkSpecificIdentifier,
+            0b010 => SupiFormat::Gci,
+            0b011 => SupiFormat::Gli,
+            _ => SupiFormat::Imsi, 
+        }
+    }
+
+    pub fn get_suci_data(&self) -> SuciData{
+        match self.get_supi_format() {
+            SupiFormat::Imsi => { 
+                return SuciData::Imsi(Imsi(&self.0));
+            },
+            SupiFormat::NetworkSpecificIdentifier | SupiFormat::Gci | SupiFormat::Gli => {
+                todo!()
+            },
+        }
+
+    }
+}
+
+#[derive(Debug, Clone)]
+pub enum SupiFormat {
+    Imsi = 0b000,
+    NetworkSpecificIdentifier = 0b001,
+    Gci = 0b010,
+    Gli = 0b011,
+}
+
+impl From<u8> for SupiFormat {
+    fn from(value: u8) -> Self {
+        match value {
+            0b000 => SupiFormat::Imsi,
+            0b001 => SupiFormat::NetworkSpecificIdentifier,
+            0b010 => SupiFormat::Gci,
+            0b011 => SupiFormat::Gli,
+            _ => SupiFormat::Imsi, // Default case
+        }
+    }
+}
+
+impl From<SupiFormat> for u8 {
+    fn from(format: SupiFormat) -> Self {
+        format as u8
+    }
+}
+
+#[derive(Debug, Clone)]
+pub enum SuciData<'a>{
+    Imsi(Imsi<'a>),
+    Nsi,
+    Gci,
+    Gli
+}
+
+#[derive(Debug, Clone)]
+pub struct Imsi<'a>(&'a [u8]);
+
+impl<'a> Imsi<'a>{
+    pub fn get_imsi_header(&self) -> ImsiHeader<&'a [u8]>{
+        ImsiHeader(&self.0[0..8])
+    }
+
+    pub fn get_msin(&self) -> String {
+        
+        let mut msin = String::new();
+        
+        for &byte in &self.0[8..] {
+            let high_nibble = (byte >> 4) & 0x0F;
+            if high_nibble != 0x0F { 
+                msin.push(char::from_digit(high_nibble as u32, 16).unwrap_or('?'));
+            }
+            
+            let low_nibble = byte & 0x0F;
+            if low_nibble != 0x0F { 
+                msin.push(char::from_digit(low_nibble as u32, 16).unwrap_or('?'));
+            }
+        }
+        
+        msin
+    }
+}
+
+bitfield! {
+    #[derive(Clone)]
+    pub struct ImsiHeader(MSB0 [u8]);
+    impl Debug;
+    u8;
+    pub from into FiveGsIdentityType, get_identity_type, set_identity_type: 2, 0;
+    pub from into SupiFormat, get_supi_format, set_supi_format: 6, 4;
+    pub get_mcc_digit_1, set_mcc_digit_1: 11, 8;
+    pub get_mcc_digit_2, set_mcc_digit_2: 15, 12;
+    pub get_mcc_digit_3, set_mcc_digit_3: 19, 16;
+    pub get_mnc_digit_3, set_mnc_digit_3: 23, 20;
+    pub get_mnc_digit_1, set_mnc_digit_1: 27, 24;
+    pub get_mnc_digit_2, set_mnc_digit_2: 31, 28;
+    pub get_routing_indicator_digit_1, set_routing_indicator_digit_1: 35, 32;
+    pub get_routing_indicator_digit_2, set_routing_indicator_digit_2: 39, 36;
+    pub get_routing_indicator_digit_3, set_routing_indicator_digit_3: 43, 40;
+    pub get_routing_indicator_digit_4, set_routing_indicator_digit_4: 47, 44;
+    pub get_protection_scheme_id, set_protection_scheme_id: 51, 48;
+    pub get_home_network_pki_value, set_home_network_pki_value: 63, 56;
+}
 
 // ******************************************************************
 // FiveGmmCapability
