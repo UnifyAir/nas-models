@@ -250,6 +250,7 @@ impl FiveGsMobileIdentity {
 
     pub fn get_mobile_identity(self) -> MobileIdentity {
         match self.get_mobile_identity_type() {
+            IdentityType::NoIdentity => MobileIdentity::NoIdentity(NoIdentity(self.0)),
             IdentityType::Suci => MobileIdentity::Suci(Suci(self.0)),
             IdentityType::FiveGGuti => MobileIdentity::FiveGGuti(FiveGGuti(self.0)),
             IdentityType::Imei => MobileIdentity::Imei(ImeiOrImeiSv(self.0)),
@@ -262,10 +263,9 @@ impl FiveGsMobileIdentity {
 
     pub fn set_mobile_identity(&mut self, identity: MobileIdentity) {
         match identity {
+            MobileIdentity::NoIdentity(no_identity) => self.0 = no_identity.0,
             MobileIdentity::Suci(suci) => self.0 = suci.0,
-            MobileIdentity::FiveGGuti(guti) => {
-                self.0 = guti.0;
-            }
+            MobileIdentity::FiveGGuti(guti) => self.0 = guti.0,
             MobileIdentity::Imei(imei) => self.0 = imei.0,
             MobileIdentity::FiveGSTmsi(five_gs_tmsi) => self.0 = five_gs_tmsi.0,
             MobileIdentity::Imeisv(imeisv) => self.0 = imeisv.0,
@@ -276,6 +276,7 @@ impl FiveGsMobileIdentity {
 }
 
 pub enum MobileIdentity {
+    NoIdentity(NoIdentity<Vec<u8>>),
     Suci(Suci),
     FiveGGuti(Guti),
     Imei(ImeiOrImeiSv),
@@ -566,6 +567,19 @@ bitfield! {
     pub from into SupiFormat, get_supi_format, set_supi_format: 6, 4;
 }
 
+
+// ******************************************************************
+// NoIdentity
+// ******************************************************************
+
+// Manually-generated
+bitfield! {
+    #[derive(Clone)]
+    pub struct NoIdentity(MSB0 [u8]);
+    impl Debug;
+    u8;
+    pub from into FiveGsIdentityType, get_identity_type, set_identity_type: 2, 0;
+}
 // ******************************************************************
 // FiveGmmCapability
 // ******************************************************************
@@ -1434,6 +1448,7 @@ bitfield! {
 }
 
 pub enum IdentityType {
+    NoIdentity = 0b000,
     Suci = 0b001,
     FiveGGuti = 0b010,
     Imei = 0b011,
@@ -1450,6 +1465,7 @@ impl FiveGsIdentityType {
 
     pub fn get_identity_type(&self) -> IdentityType {
         match self.get_raw_identity_type() {
+            0b000 => IdentityType::NoIdentity,
             0b001 => IdentityType::Suci,
             0b010 => IdentityType::FiveGGuti,
             0b011 => IdentityType::Imei,
