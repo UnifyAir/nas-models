@@ -32,10 +32,51 @@
  * from 24501-h90.docx
  ******************************************************************************/
 
+//Auto-generated
 use bitfield::bitfield;
 use derive_more::{From, Into};
 use tlv::prelude::*;
 use tlv_derive::{TlvDecode, TlvEncode};
+
+//Manually-generated
+use crate::message::{
+    NAS_EXTENDED_PROTOCOL_DISCRIMINATOR_5GMM, NAS_EXTENDED_PROTOCOL_DISCRIMINATOR_5GSM,
+    NAS_MESSAGE_TYPE_5GMM_STATUS, NAS_MESSAGE_TYPE_5GSM_STATUS,
+    NAS_MESSAGE_TYPE_AUTHENTICATION_FAILURE, NAS_MESSAGE_TYPE_AUTHENTICATION_REJECT,
+    NAS_MESSAGE_TYPE_AUTHENTICATION_REQUEST, NAS_MESSAGE_TYPE_AUTHENTICATION_RESPONSE,
+    NAS_MESSAGE_TYPE_AUTHENTICATION_RESULT, NAS_MESSAGE_TYPE_CONFIGURATION_UPDATE_COMMAND,
+    NAS_MESSAGE_TYPE_CONFIGURATION_UPDATE_COMPLETE, NAS_MESSAGE_TYPE_DEREGISTRATION_ACCEPT_FROM_UE,
+    NAS_MESSAGE_TYPE_DEREGISTRATION_ACCEPT_TO_UE, NAS_MESSAGE_TYPE_DEREGISTRATION_REQUEST_FROM_UE,
+    NAS_MESSAGE_TYPE_DEREGISTRATION_REQUEST_TO_UE, NAS_MESSAGE_TYPE_DL_NAS_TRANSPORT,
+    NAS_MESSAGE_TYPE_IDENTITY_REQUEST, NAS_MESSAGE_TYPE_IDENTITY_RESPONSE,
+    NAS_MESSAGE_TYPE_NOTIFICATION, NAS_MESSAGE_TYPE_NOTIFICATION_RESPONSE,
+    NAS_MESSAGE_TYPE_PDU_SESSION_AUTHENTICATION_COMMAND,
+    NAS_MESSAGE_TYPE_PDU_SESSION_AUTHENTICATION_COMPLETE,
+    NAS_MESSAGE_TYPE_PDU_SESSION_AUTHENTICATION_RESULT,
+    NAS_MESSAGE_TYPE_PDU_SESSION_ESTABLISHMENT_ACCEPT,
+    NAS_MESSAGE_TYPE_PDU_SESSION_ESTABLISHMENT_REJECT,
+    NAS_MESSAGE_TYPE_PDU_SESSION_ESTABLISHMENT_REQUEST,
+    NAS_MESSAGE_TYPE_PDU_SESSION_MODIFICATION_COMMAND,
+    NAS_MESSAGE_TYPE_PDU_SESSION_MODIFICATION_COMMAND_REJECT,
+    NAS_MESSAGE_TYPE_PDU_SESSION_MODIFICATION_COMPLETE,
+    NAS_MESSAGE_TYPE_PDU_SESSION_MODIFICATION_REJECT,
+    NAS_MESSAGE_TYPE_PDU_SESSION_MODIFICATION_REQUEST,
+    NAS_MESSAGE_TYPE_PDU_SESSION_RELEASE_COMMAND,
+    NAS_MESSAGE_TYPE_PDU_SESSION_RELEASE_COMPLETE,
+    NAS_MESSAGE_TYPE_PDU_SESSION_RELEASE_REJECT,
+    NAS_MESSAGE_TYPE_PDU_SESSION_RELEASE_REQUEST,
+    NAS_MESSAGE_TYPE_REGISTRATION_ACCEPT,
+    NAS_MESSAGE_TYPE_REGISTRATION_COMPLETE,
+    NAS_MESSAGE_TYPE_REGISTRATION_REJECT,
+    NAS_MESSAGE_TYPE_REGISTRATION_REQUEST,
+    NAS_MESSAGE_TYPE_SECURITY_MODE_COMMAND,
+    NAS_MESSAGE_TYPE_SECURITY_MODE_COMPLETE,
+    NAS_MESSAGE_TYPE_SECURITY_MODE_REJECT,
+    NAS_MESSAGE_TYPE_SERVICE_ACCEPT,
+    NAS_MESSAGE_TYPE_SERVICE_REJECT,
+    NAS_MESSAGE_TYPE_SERVICE_REQUEST,
+    NAS_MESSAGE_TYPE_UL_NAS_TRANSPORT,
+};
 
 // ******************************************************************
 // ExtendedProtocolDiscriminator
@@ -44,6 +85,15 @@ use tlv_derive::{TlvDecode, TlvEncode};
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct ExtendedProtocolDiscriminator(u8);
+
+impl ExtendedProtocolDiscriminator {
+    pub const fn gmm() -> Self {
+        ExtendedProtocolDiscriminator(NAS_EXTENDED_PROTOCOL_DISCRIMINATOR_5GMM)
+    }
+    pub const fn gsm() -> Self {
+        ExtendedProtocolDiscriminator(NAS_EXTENDED_PROTOCOL_DISCRIMINATOR_5GSM)
+    }
+}
 
 // ******************************************************************
 // SecurityHeaderType
@@ -98,6 +148,12 @@ impl SecurityHeaderType {
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct SpareHalfOctet(u8);
 
+impl SpareHalfOctet {
+    pub const fn zero() -> Self {
+        Self(0u8)
+    }
+}
+
 // ******************************************************************
 // MessageType
 // ******************************************************************
@@ -105,6 +161,185 @@ pub struct SpareHalfOctet(u8);
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
 pub struct MessageType(u8);
+
+impl MessageType {
+    pub const fn registration_request() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_REGISTRATION_REQUEST)
+    }
+    
+    pub const fn registration_accept() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_REGISTRATION_ACCEPT)
+    }
+    
+    pub const fn registration_complete() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_REGISTRATION_COMPLETE)
+    }
+    
+    pub const fn registration_reject() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_REGISTRATION_REJECT)
+    }
+    
+    pub const fn deregistration_request_from_ue() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_DEREGISTRATION_REQUEST_FROM_UE)
+    }
+    
+    pub const fn deregistration_accept_from_ue() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_DEREGISTRATION_ACCEPT_FROM_UE)
+    }
+    
+    pub const fn deregistration_request_to_ue() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_DEREGISTRATION_REQUEST_TO_UE)
+    }
+    
+    pub const fn deregistration_accept_to_ue() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_DEREGISTRATION_ACCEPT_TO_UE)
+    }
+    
+    pub const fn service_request() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_SERVICE_REQUEST)
+    }
+    
+    pub const fn service_reject() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_SERVICE_REJECT)
+    }
+    
+    pub const fn service_accept() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_SERVICE_ACCEPT)
+    }
+    
+    pub const fn configuration_update_command() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_CONFIGURATION_UPDATE_COMMAND)
+    }
+    
+    pub const fn configuration_update_complete() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_CONFIGURATION_UPDATE_COMPLETE)
+    }
+    
+    pub const fn authentication_request() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_AUTHENTICATION_REQUEST)
+    }
+    
+    pub const fn authentication_response() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_AUTHENTICATION_RESPONSE)
+    }
+    
+    pub const fn authentication_reject() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_AUTHENTICATION_REJECT)
+    }
+    
+    pub const fn authentication_failure() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_AUTHENTICATION_FAILURE)
+    }
+    
+    pub const fn authentication_result() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_AUTHENTICATION_RESULT)
+    }
+    
+    pub const fn identity_request() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_IDENTITY_REQUEST)
+    }
+    
+    pub const fn identity_response() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_IDENTITY_RESPONSE)
+    }
+    
+    pub const fn security_mode_command() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_SECURITY_MODE_COMMAND)
+    }
+    
+    pub const fn security_mode_complete() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_SECURITY_MODE_COMPLETE)
+    }
+    
+    pub const fn security_mode_reject() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_SECURITY_MODE_REJECT)
+    }
+    
+    pub const fn gmm_status() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_5GMM_STATUS)
+    }
+    
+    pub const fn notification() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_NOTIFICATION)
+    }
+    
+    pub const fn notification_response() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_NOTIFICATION_RESPONSE)
+    }
+    
+    pub const fn ul_nas_transport() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_UL_NAS_TRANSPORT)
+    }
+    
+    pub const fn dl_nas_transport() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_DL_NAS_TRANSPORT)
+    }
+    
+    pub const fn pdu_session_establishment_request() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_ESTABLISHMENT_REQUEST)
+    }
+    
+    pub const fn pdu_session_establishment_accept() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_ESTABLISHMENT_ACCEPT)
+    }
+    
+    pub const fn pdu_session_establishment_reject() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_ESTABLISHMENT_REJECT)
+    }
+    
+    pub const fn pdu_session_authentication_command() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_AUTHENTICATION_COMMAND)
+    }
+    
+    pub const fn pdu_session_authentication_complete() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_AUTHENTICATION_COMPLETE)
+    }
+    
+    pub const fn pdu_session_authentication_result() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_AUTHENTICATION_RESULT)
+    }
+    
+    pub const fn pdu_session_modification_request() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_MODIFICATION_REQUEST)
+    }
+    
+    pub const fn pdu_session_modification_reject() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_MODIFICATION_REJECT)
+    }
+    
+    pub const fn pdu_session_modification_command() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_MODIFICATION_COMMAND)
+    }
+    
+    pub const fn pdu_session_modification_complete() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_MODIFICATION_COMPLETE)
+    }
+    
+    pub const fn pdu_session_modification_command_reject() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_MODIFICATION_COMMAND_REJECT)
+    }
+    
+    pub const fn pdu_session_release_request() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_RELEASE_REQUEST)
+    }
+    
+    pub const fn pdu_session_release_reject() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_RELEASE_REJECT)
+    }
+    
+    pub const fn pdu_session_release_command() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_RELEASE_COMMAND)
+    }
+    
+    pub const fn pdu_session_release_complete() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_PDU_SESSION_RELEASE_COMPLETE)
+    }
+    
+    pub const fn gsm_status() -> Self {
+        MessageType(NAS_MESSAGE_TYPE_5GSM_STATUS)
+    }
+}
+
 
 // ******************************************************************
 // FiveGsRegistrationType
@@ -1441,7 +1676,7 @@ pub struct PriorityIndicator(u8);
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct Abba(Vec<u8>);
+pub struct Abba(pub Vec<u8>);
 
 // ******************************************************************
 // AuthenticationParameterRand
