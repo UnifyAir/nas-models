@@ -28,7 +28,7 @@
 /*******************************************************************************
  * This file had been created by rust-nas-message.py script v0.2.0
  * Please do not modify this file but regenerate it via script.
- * Created on: 2025-03-11 22:49:24.620096 by nr
+ * Created on: 2025-03-13 23:14:53.896680 by nr
  * from 24501-h90.docx
  ******************************************************************************/
 
@@ -36,6 +36,7 @@
 use tlv::prelude::*;
 use crate::types::*;
 use tlv_derive::{TlvDecode, TlvEncode};
+use auto_new_builder::auto_new_builder_derive::AutoNewBuilder;
 
 
 pub const NAS_EXTENDED_PROTOCOL_DISCRIMINATOR_5GSM: u8 = 0x2e;
@@ -91,7 +92,7 @@ pub const NAS_MESSAGE_TYPE_5GSM_STATUS: u8 = 214;
  * REGISTRATION REQUEST
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasRegistrationRequest {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -241,7 +242,7 @@ pub struct NasRegistrationRequest {
  * REGISTRATION ACCEPT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasRegistrationAccept {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -418,7 +419,7 @@ pub struct NasRegistrationAccept {
  * REGISTRATION COMPLETE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasRegistrationComplete {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -445,7 +446,7 @@ pub struct NasRegistrationComplete {
  * REGISTRATION REJECT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasRegistrationReject {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -505,7 +506,7 @@ pub struct NasRegistrationReject {
  * DEREGISTRATION REQUEST FROM UE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasDeregistrationRequestFromUe {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -536,7 +537,7 @@ pub struct NasDeregistrationRequestFromUe {
  * DEREGISTRATION ACCEPT FROM UE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasDeregistrationAcceptFromUe {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -558,7 +559,7 @@ pub struct NasDeregistrationAcceptFromUe {
  * DEREGISTRATION REQUEST TO UE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasDeregistrationRequestToUe {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -618,7 +619,7 @@ pub struct NasDeregistrationRequestToUe {
  * DEREGISTRATION ACCEPT TO UE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasDeregistrationAcceptToUe {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -640,7 +641,7 @@ pub struct NasDeregistrationAcceptToUe {
  * SERVICE REQUEST
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasServiceRequest {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -691,7 +692,7 @@ pub struct NasServiceRequest {
  * SERVICE REJECT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasServiceReject {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -748,7 +749,7 @@ pub struct NasServiceReject {
  * SERVICE ACCEPT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasServiceAccept {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -796,7 +797,7 @@ pub struct NasServiceAccept {
  * CONFIGURATION UPDATE COMMAND
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasConfigurationUpdateCommand {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -922,7 +923,7 @@ pub struct NasConfigurationUpdateCommand {
  * CONFIGURATION UPDATE COMPLETE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasConfigurationUpdateComplete {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -944,7 +945,7 @@ pub struct NasConfigurationUpdateComplete {
  * AUTHENTICATION REQUEST
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasAuthenticationRequest {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -986,7 +987,7 @@ pub struct NasAuthenticationRequest {
  * AUTHENTICATION RESPONSE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasAuthenticationResponse {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1016,7 +1017,7 @@ pub struct NasAuthenticationResponse {
  * AUTHENTICATION REJECT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasAuthenticationReject {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1043,7 +1044,7 @@ pub struct NasAuthenticationReject {
  * AUTHENTICATION FAILURE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasAuthenticationFailure {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1073,7 +1074,7 @@ pub struct NasAuthenticationFailure {
  * AUTHENTICATION RESULT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasAuthenticationResult {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1109,7 +1110,7 @@ pub struct NasAuthenticationResult {
  * IDENTITY REQUEST
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasIdentityRequest {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1137,7 +1138,7 @@ pub struct NasIdentityRequest {
  * IDENTITY RESPONSE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasIdentityResponse {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1162,7 +1163,7 @@ pub struct NasIdentityResponse {
  * SECURITY MODE COMMAND
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasSecurityModeCommand {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1216,7 +1217,7 @@ pub struct NasSecurityModeCommand {
  * SECURITY MODE COMPLETE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasSecurityModeComplete {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1249,7 +1250,7 @@ pub struct NasSecurityModeComplete {
  * SECURITY MODE REJECT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasSecurityModeReject {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1274,7 +1275,7 @@ pub struct NasSecurityModeReject {
  * 5GMM STATUS
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct Nas5gmmStatus {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1299,7 +1300,7 @@ pub struct Nas5gmmStatus {
  * NOTIFICATION
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasNotification {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1327,7 +1328,7 @@ pub struct NasNotification {
  * NOTIFICATION RESPONSE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasNotificationResponse {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1354,7 +1355,7 @@ pub struct NasNotificationResponse {
  * UL NAS TRANSPORT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasUlNasTransport {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1411,7 +1412,7 @@ pub struct NasUlNasTransport {
  * DL NAS TRANSPORT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasDlNasTransport {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1459,7 +1460,7 @@ pub struct NasDlNasTransport {
  * PDU SESSION ESTABLISHMENT REQUEST
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionEstablishmentRequest {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1537,7 +1538,7 @@ pub struct NasPduSessionEstablishmentRequest {
  * PDU SESSION ESTABLISHMENT ACCEPT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionEstablishmentAccept {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1627,7 +1628,7 @@ pub struct NasPduSessionEstablishmentAccept {
  * PDU SESSION ESTABLISHMENT REJECT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionEstablishmentReject {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1675,7 +1676,7 @@ pub struct NasPduSessionEstablishmentReject {
  * PDU SESSION AUTHENTICATION COMMAND
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionAuthenticationCommand {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1705,7 +1706,7 @@ pub struct NasPduSessionAuthenticationCommand {
  * PDU SESSION AUTHENTICATION COMPLETE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionAuthenticationComplete {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1735,7 +1736,7 @@ pub struct NasPduSessionAuthenticationComplete {
  * PDU SESSION AUTHENTICATION RESULT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionAuthenticationResult {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1765,7 +1766,7 @@ pub struct NasPduSessionAuthenticationResult {
  * PDU SESSION MODIFICATION REQUEST
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionModificationRequest {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1831,7 +1832,7 @@ pub struct NasPduSessionModificationRequest {
  * PDU SESSION MODIFICATION REJECT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionModificationReject {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1870,7 +1871,7 @@ pub struct NasPduSessionModificationReject {
  * PDU SESSION MODIFICATION COMMAND
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionModificationCommand {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1939,7 +1940,7 @@ pub struct NasPduSessionModificationCommand {
  * PDU SESSION MODIFICATION COMPLETE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionModificationComplete {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1969,7 +1970,7 @@ pub struct NasPduSessionModificationComplete {
  * PDU SESSION MODIFICATION COMMAND REJECT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionModificationCommandReject {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -1999,7 +2000,7 @@ pub struct NasPduSessionModificationCommandReject {
  * PDU SESSION RELEASE REQUEST
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionReleaseRequest {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -2029,7 +2030,7 @@ pub struct NasPduSessionReleaseRequest {
  * PDU SESSION RELEASE REJECT
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionReleaseReject {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -2059,7 +2060,7 @@ pub struct NasPduSessionReleaseReject {
  * PDU SESSION RELEASE COMMAND
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionReleaseCommand {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -2104,7 +2105,7 @@ pub struct NasPduSessionReleaseCommand {
  * PDU SESSION RELEASE COMPLETE
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionReleaseComplete {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
@@ -2134,7 +2135,7 @@ pub struct NasPduSessionReleaseComplete {
  * 5GSM STATUS
  ******************************************************/
 
-#[derive(Debug, TlvEncode, TlvDecode, Clone)]
+#[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct Nas5gsmStatus {
     /* Mandatory fields */
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]

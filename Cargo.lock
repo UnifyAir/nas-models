@@ -48,6 +48,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "auto-new-builder"
+version = "0.1.0"
+dependencies = [
+ "auto-new-builder-derive",
+]
+
+[[package]]
+name = "auto-new-builder-derive"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.99",
+]
+
+[[package]]
 name = "bindgen"
 version = "0.69.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -100,6 +116,7 @@ checksum = "8f68f53c83ab957f72c32642f3868eec03eb974d1fb82e453128456482613d36"
 name = "boost-nas"
 version = "0.1.0"
 dependencies = [
+ "auto-new-builder",
  "bindgen",
  "bitfield",
  "cc",
