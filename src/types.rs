@@ -313,6 +313,50 @@ bitfield! {
     pub u32, get_5g_tmsi, set_5g_tmsi: 87, 56;
 }
 
+
+impl<T: AsRef<[u8]>> FiveGGuti<T> {
+    pub fn get_plmnid_string(&self) -> String {
+        let mcc_digit_1 = self.get_mcc_digit_1();
+        let mcc_digit_2 = self.get_mcc_digit_2();
+        let mcc_digit_3 = self.get_mcc_digit_3();
+        let mnc_digit_1 = self.get_mnc_digit_1();
+        let mnc_digit_2 = self.get_mnc_digit_2();
+        let mnc_digit_3 = self.get_mnc_digit_3();
+        
+        let bytes = [
+            (mcc_digit_1 << 4) | mcc_digit_2,
+            (mcc_digit_3 << 4) | mnc_digit_1,
+            (mnc_digit_2 << 4) | mnc_digit_3,
+        ];
+        
+        let plmn_id = hex::encode(&bytes);
+        
+        if plmn_id.chars().nth(5) == Some('f') {
+            plmn_id[..5].to_string()
+        } else {
+            plmn_id
+        }
+    }
+
+    pub fn get_amfid_string(&self) -> String {
+        let data = self.0.as_ref();
+        hex::encode(&data[4..7])
+    }
+
+    pub fn get_tmsi_string(&self) -> String {
+        let data = self.0.as_ref();
+        hex::encode(&data[7..11])
+    }
+
+    pub fn get_guti_string(&self) -> String {
+        let plmn_id = self.get_plmnid_string();
+        let amf_id = self.get_amfid_string();
+        let tmsi = self.get_tmsi_string();
+        
+        format!("{}:{}:{}", plmn_id, amf_id, tmsi)
+    }
+}
+
 // ******************************************************************
 // IMEI
 // ******************************************************************
