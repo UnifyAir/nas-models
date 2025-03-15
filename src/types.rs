@@ -1242,8 +1242,81 @@ pub struct PeipsAssistanceInformation(Vec<u8>);
 // ******************************************************************
 
 // Auto-generated
-#[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FiveGsRegistrationResult(u8);
+// #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
+// pub struct FiveGsRegistrationResult(u8);
+
+bitfield! {
+    #[derive(TlvEncode, TlvDecode, Into, From, Clone)]
+    pub struct FiveGsRegistrationResult(u8);
+    impl Debug;
+    u8;
+    pub get_raw_registration_result_value, set_raw_registration_result_value: 2, 0;
+    pub get_raw_sms_allowed, set_raw_sms_allowed: 3;
+    pub get_raw_nssa_performed, set_raw_nssa_performed: 4;
+    pub get_raw_emergency_registered, set_raw_emergency_registered: 5;
+    pub get_raw_disaster_roaming_registration_value, set_raw_disaster_roaming_registration_value: 6;
+}
+
+pub enum RegistrationResultValue {
+    ThreeGppAccess = 0b001,
+    NonThreeGppAccess = 0b010,
+    ThreeGppAndNonThreeGppAccess = 0b011,
+    Reserved = 0b111,
+}
+
+impl FiveGsRegistrationResult {
+    pub fn new(registration_result: RegistrationResultValue) -> Self {
+        let mut result = Self(0);
+        result.set_raw_registration_result_value(registration_result as u8);
+        result
+    }
+
+    pub fn get_registration_result_value(&self) -> Option<RegistrationResultValue> {
+        match self.get_raw_registration_result_value() {
+            0b001 => Some(RegistrationResultValue::ThreeGppAccess),
+            0b010 => Some(RegistrationResultValue::NonThreeGppAccess),
+            0b011 => Some(RegistrationResultValue::ThreeGppAndNonThreeGppAccess),
+            0b111 => Some(RegistrationResultValue::Reserved),
+            _ => Some(RegistrationResultValue::ThreeGppAccess), 
+        }
+    }
+
+    pub fn set_registration_result_value(&mut self, registration_result: RegistrationResultValue) {
+        self.set_raw_registration_result_value(registration_result as u8);
+    }
+
+    pub fn is_sms_allowed(&self) -> bool {
+        self.get_raw_sms_allowed()
+    }
+
+    pub fn set_sms_allowed(&mut self, allowed: bool) {
+        self.set_raw_sms_allowed(allowed);
+    }
+
+    pub fn is_nssaa_to_be_performed(&self) -> bool {
+        self.get_raw_nssa_performed()
+    }
+
+    pub fn set_nssaa_to_be_performed(&mut self, to_be_performed: bool) {
+        self.set_raw_nssa_performed(to_be_performed);
+    }
+
+    pub fn is_emergency_registered(&self) -> bool {
+        self.get_raw_emergency_registered()
+    }
+
+    pub fn set_emergency_registered(&mut self, registered: bool) {
+        self.set_raw_emergency_registered(registered);
+    }
+
+    pub fn is_disaster_roaming_accepted(&self) -> bool {
+        self.get_raw_disaster_roaming_registration_value()
+    }
+
+    pub fn set_disaster_roaming_accepted(&mut self, accepted: bool) {
+        self.set_raw_disaster_roaming_registration_value(accepted);
+    }
+}
 
 // ******************************************************************
 // PlmnList
