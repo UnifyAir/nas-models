@@ -483,42 +483,42 @@ impl FiveGsMobileIdentity {
         FiveGsIdentityType(self.0[0] & 0b00000111).get_identity_type()
     }
 
-    pub fn get_mobile_identity(self) -> MobileIdentity {
+    pub fn get_mobile_identity(&self) -> MobileIdentity {
         match self.get_mobile_identity_type() {
-            IdentityType::NoIdentity => MobileIdentity::NoIdentity(NoIdentity(self.0)),
-            IdentityType::Suci => MobileIdentity::Suci(Suci(self.0)),
-            IdentityType::FiveGGuti => MobileIdentity::FiveGGuti(FiveGGuti(self.0)),
-            IdentityType::Imei => MobileIdentity::Imei(ImeiOrImeiSv(self.0)),
-            IdentityType::FiveGSTmsi => MobileIdentity::FiveGSTmsi(FiveGTmsi(self.0)),
-            IdentityType::Imeisv => MobileIdentity::Imeisv(ImeiOrImeiSv(self.0)),
-            IdentityType::MacAddress => MobileIdentity::MacAddress(MacAddress(self.0)),
-            IdentityType::Eui64 => MobileIdentity::Eui64(Eui64(self.0)),
+            IdentityType::NoIdentity => MobileIdentity::NoIdentity(NoIdentity(self.0.as_ref())),
+            IdentityType::Suci => MobileIdentity::Suci(Suci(self.0.as_ref())),
+            IdentityType::FiveGGuti => MobileIdentity::FiveGGuti(FiveGGuti(self.0.as_ref())),
+            IdentityType::Imei => MobileIdentity::Imei(ImeiOrImeiSv(self.0.as_ref())),
+            IdentityType::FiveGSTmsi => MobileIdentity::FiveGSTmsi(FiveGTmsi(self.0.as_ref())),
+            IdentityType::Imeisv => MobileIdentity::Imeisv(ImeiOrImeiSv(self.0.as_ref())),
+            IdentityType::MacAddress => MobileIdentity::MacAddress(MacAddress(self.0.as_ref())),
+            IdentityType::Eui64 => MobileIdentity::Eui64(Eui64(self.0.as_ref())),
         }
     }
 
     pub fn set_mobile_identity(&mut self, identity: MobileIdentity) {
         match identity {
-            MobileIdentity::NoIdentity(no_identity) => self.0 = no_identity.0,
-            MobileIdentity::Suci(suci) => self.0 = suci.0,
-            MobileIdentity::FiveGGuti(guti) => self.0 = guti.0,
-            MobileIdentity::Imei(imei) => self.0 = imei.0,
-            MobileIdentity::FiveGSTmsi(five_gs_tmsi) => self.0 = five_gs_tmsi.0,
-            MobileIdentity::Imeisv(imeisv) => self.0 = imeisv.0,
-            MobileIdentity::MacAddress(mac_addr) => self.0 = mac_addr.0,
-            MobileIdentity::Eui64(eui64) => self.0 = eui64.0,
+            MobileIdentity::NoIdentity(no_identity) => self.0 = no_identity.0.to_owned(),
+            MobileIdentity::Suci(suci) => self.0 = suci.0.to_owned(),
+            MobileIdentity::FiveGGuti(guti) => self.0 = guti.0.to_owned(),
+            MobileIdentity::Imei(imei) => self.0 = imei.0.to_owned(),
+            MobileIdentity::FiveGSTmsi(five_gs_tmsi) => self.0 = five_gs_tmsi.0.to_owned(),
+            MobileIdentity::Imeisv(imeisv) => self.0 = imeisv.0.to_owned(),
+            MobileIdentity::MacAddress(mac_addr) => self.0 = mac_addr.0.to_owned(),
+            MobileIdentity::Eui64(eui64) => self.0 = eui64.0.to_owned(),
         }
     }
 }
 
-pub enum MobileIdentity {
-    NoIdentity(NoIdentity<Vec<u8>>),
-    Suci(Suci),
-    FiveGGuti(Guti),
-    Imei(ImeiOrImeiSv),
-    FiveGSTmsi(FiveGTmsi<Vec<u8>>),
-    Imeisv(ImeiOrImeiSv),
-    MacAddress(MacAddress),
-    Eui64(Eui64),
+pub enum MobileIdentity<'a> {
+    NoIdentity(NoIdentity<&'a [u8]>),
+    Suci(Suci<'a>),
+    FiveGGuti(FiveGGuti<&'a [u8]>),
+    Imei(ImeiOrImeiSv<'a>),
+    FiveGSTmsi(FiveGTmsi<&'a [u8]>),
+    Imeisv(ImeiOrImeiSv<'a>),
+    MacAddress(MacAddress<'a>),
+    Eui64(Eui64<'a>),
 }
 
 // ******************************************************************
@@ -526,9 +526,6 @@ pub enum MobileIdentity {
 // ******************************************************************
 
 // Manually-generated
-pub type Guti = FiveGGuti<Vec<u8>>;
-pub type Tmsi = u32;
-
 bitfield! {
     #[derive(Clone)]
     pub struct FiveGGuti(MSB0 [u8]);
@@ -598,9 +595,9 @@ impl<T: AsRef<[u8]>> FiveGGuti<T> {
 
 // Manually-generated
 #[derive(Debug, Clone)]
-pub struct ImeiOrImeiSv(Vec<u8>);
+pub struct ImeiOrImeiSv<'a>(&'a [u8]);
 
-impl ImeiOrImeiSv {
+impl ImeiOrImeiSv<'_> {
     pub fn get_identity_type(&self) -> FiveGsIdentityType {
         FiveGsIdentityType(&self.0[0] & 0b00000111)
     }
@@ -652,9 +649,9 @@ bitfield! {
 
 // Manually-generated
 #[derive(Debug, Clone)]
-pub struct MacAddress(Vec<u8>);
+pub struct MacAddress<'a>(&'a [u8]);
 
-impl MacAddress {
+impl MacAddress<'_> {
     pub fn get_identity_type(&self) -> FiveGsIdentityType {
         FiveGsIdentityType(&self.0[0] & 0b00000111)
     }
@@ -674,9 +671,9 @@ impl MacAddress {
 
 // Manually-generated
 #[derive(Debug, Clone)]
-pub struct Eui64(Vec<u8>);
+pub struct Eui64<'a>(&'a [u8]);
 
-impl Eui64 {
+impl Eui64<'_> {
     pub fn get_identity_type(&self) -> FiveGsIdentityType {
         FiveGsIdentityType(&self.0[0] & 0b00000111)
     }
@@ -692,9 +689,9 @@ impl Eui64 {
 
 // Manually-generated
 #[derive(Debug, Clone)]
-pub struct Suci(Vec<u8>);
+pub struct Suci<'a>(&'a [u8]);
 
-impl Suci {
+impl Suci<'_> {
     pub fn get_identity_type(&self) -> FiveGsIdentityType {
         FiveGsIdentityType(self.0[0] & 0b00000111)
     }
@@ -710,7 +707,7 @@ impl Suci {
         }
     }
 
-    pub fn get_suci_data(self) -> SuciData {
+    pub fn get_suci_data(&self) -> SuciData {
         match self.get_supi_format() {
             SupiFormat::Imsi => {
                 return SuciData::Imsi(Imsi(self.0));
@@ -755,17 +752,17 @@ impl From<SupiFormat> for u8 {
 }
 
 #[derive(Debug, Clone)]
-pub enum SuciData {
-    Imsi(Imsi),
-    Nsi(NsiOrGciOrGli),
-    Gci(NsiOrGciOrGli),
-    Gli(NsiOrGciOrGli),
+pub enum SuciData<'a> {
+    Imsi(Imsi<'a>),
+    Nsi(NsiOrGciOrGli<'a>),
+    Gci(NsiOrGciOrGli<'a>),
+    Gli(NsiOrGciOrGli<'a>),
 }
 
 #[derive(Debug, Clone)]
-pub struct Imsi(Vec<u8>);
+pub struct Imsi<'a>(&'a [u8]);
 
-impl Imsi {
+impl Imsi<'_> {
     pub fn get_imsi_header(&self) -> ImsiHeader<&[u8]> {
         ImsiHeader(&self.0[0..8])
     }
@@ -811,9 +808,9 @@ bitfield! {
 }
 
 #[derive(Debug, Clone)]
-pub struct NsiOrGciOrGli(Vec<u8>);
+pub struct NsiOrGciOrGli<'a>(&'a [u8]);
 
-impl NsiOrGciOrGli {
+impl NsiOrGciOrGli<'_> {
     pub fn get_nsi_gci_gli_header(&self) -> NsiOrGciOrGliHeader {
         NsiOrGciOrGliHeader(self.0[0])
     }

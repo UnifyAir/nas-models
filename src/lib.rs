@@ -7,20 +7,20 @@ pub use tlv::prelude::*;
 // }
 
 
-#[allow(dead_code)]
-pub struct NoOpMessageType(u8);
+// #[allow(dead_code)]
+// pub struct NoOpMessageType(u8);
 
-impl TlvDecode for NoOpMessageType {
-    fn decode(length: usize, bytes: &mut Bytes) -> Result<Self, TlvError> {
-        Ok(NoOpMessageType(0))
-    }
-}
+// impl TlvDecode for NoOpMessageType {
+//     fn decode(length: usize, bytes: &mut Bytes) -> Result<Self, TlvError> {
+//         Ok(NoOpMessageType(0))
+//     }
+// }
 
-impl TlvEncode for NoOpMessageType {
-    fn encode(&self, bytes: &mut BytesMut) -> Result<usize, TlvError> {
-        Ok(0usize)
-    }
-}
+// impl TlvEncode for NoOpMessageType {
+//     fn encode(&self, bytes: &mut BytesMut) -> Result<usize, TlvError> {
+//         Ok(0usize)
+//     }
+// }
 
 
 #[cfg(test)]
