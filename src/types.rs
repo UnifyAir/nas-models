@@ -472,7 +472,7 @@ impl KeySetIdentifier {
 
 // Auto-generated
 #[derive(Debug, TlvEncode, TlvDecode, Into, From, Clone)]
-pub struct FiveGsMobileIdentity(Vec<u8>);
+pub struct FiveGsMobileIdentity(pub Vec<u8>);
 
 impl FiveGsMobileIdentity {
     pub fn new() -> Self {
@@ -626,6 +626,14 @@ impl ImeiOrImeiSv<'_> {
     }
 }
 
+impl ToString for ImeiOrImeiSv<'_> {
+    fn to_string(&self) -> String {
+        self.0.iter()
+            .map(|b| format!("{:02x}", b))
+            .collect::<String>()
+    }
+}
+
 // ******************************************************************
 // FiveGsTmsi
 // ******************************************************************
@@ -665,6 +673,17 @@ impl MacAddress<'_> {
     }
 }
 
+impl ToString for MacAddress<'_> {
+    fn to_string(&self) -> String {
+        let mac_data = self.get_mac_addr_data();
+        format!(
+            "{:02X}:{:02X}:{:02X}:{:02X}:{:02X}:{:02X}",
+            mac_data[0], mac_data[1], mac_data[2],
+            mac_data[3], mac_data[4], mac_data[5]
+        )
+    }
+}
+
 // ******************************************************************
 // Eui64
 // ******************************************************************
@@ -689,7 +708,7 @@ impl Eui64<'_> {
 
 // Manually-generated
 #[derive(Debug, Clone)]
-pub struct Suci<'a>(&'a [u8]);
+pub struct Suci<'a>(pub &'a [u8]);
 
 impl Suci<'_> {
     pub fn get_identity_type(&self) -> FiveGsIdentityType {
@@ -722,6 +741,15 @@ impl Suci<'_> {
                 return SuciData::Gli(NsiOrGciOrGli(self.0));
             },
         }
+    }
+
+}
+
+impl ToString for Suci<'_> {
+    fn to_string(&self) -> String {
+        self.0.iter()
+        .map(|b| format!("{:02x}", b))
+        .collect::<String>()
     }
 }
 
@@ -895,6 +923,14 @@ impl UeSecurityCapability {
             return Some((EEA(self.0[2]), EIA(self.0[3])));
         }
         None
+    }
+}
+
+impl ToString for UeSecurityCapability {
+    fn to_string(&self) -> String {
+        self.0.iter()
+        .map(|b| format!("{:02x}", b))
+        .collect::<String>()
     }
 }
 
@@ -1595,6 +1631,196 @@ pub enum GmmCauseValue {
     ConditionalIeError = 0x64,
     MessageNotCompatibleWithProtocolState = 0x65,
     ProtocolErrorUnspecified = 0x6F,
+}
+
+impl FiveGmmCause {
+    pub const fn illegal_ue() -> Self {
+        Self(0x03)
+    }
+
+    pub const fn pei_not_accepted() -> Self {
+        Self(0x05)
+    }
+
+    pub const fn illegal_me() -> Self {
+        Self(0x06)
+    }
+
+    pub const fn five_gs_services_not_allowed() -> Self {
+        Self(0x07)
+    }
+
+    pub const fn ue_identity_cannot_be_derived_by_network() -> Self {
+        Self(0x09)
+    }
+
+    pub const fn implicitly_deregistered() -> Self {
+        Self(0x0A)
+    }
+
+    pub const fn plmn_not_allowed() -> Self {
+        Self(0x0B)
+    }
+
+    pub const fn tracking_area_not_allowed() -> Self {
+        Self(0x0C)
+    }
+
+    pub const fn roaming_not_allowed_in_this_tracking_area() -> Self {
+        Self(0x0D)
+    }
+
+    pub const fn no_suitable_cells_in_tracking_area() -> Self {
+        Self(0x0F)
+    }
+
+    pub const fn mac_failure() -> Self {
+        Self(0x14)
+    }
+
+    pub const fn synch_failure() -> Self {
+        Self(0x15)
+    }
+
+    pub const fn congestion() -> Self {
+        Self(0x16)
+    }
+
+    pub const fn ue_security_capabilities_mismatch() -> Self {
+        Self(0x17)
+    }
+
+    pub const fn security_mode_rejected_unspecified() -> Self {
+        Self(0x18)
+    }
+
+    pub const fn non_5g_authentication_unacceptable() -> Self {
+        Self(0x1A)
+    }
+
+    pub const fn n1_mode_not_allowed() -> Self {
+        Self(0x1B)
+    }
+
+    pub const fn restricted_service_area() -> Self {
+        Self(0x1C)
+    }
+
+    pub const fn redirection_to_epc_required() -> Self {
+        Self(0x1F)
+    }
+
+    pub const fn iab_node_operation_not_authorized() -> Self {
+        Self(0x24)
+    }
+
+    pub const fn ladn_not_available() -> Self {
+        Self(0x2B)
+    }
+
+    pub const fn no_network_slices_available() -> Self {
+        Self(0x3E)
+    }
+
+    pub const fn maximum_number_of_pdu_sessions_reached() -> Self {
+        Self(0x41)
+    }
+
+    pub const fn insufficient_resources_for_specific_slice_and_dnn() -> Self {
+        Self(0x43)
+    }
+
+    pub const fn insufficient_resources_for_specific_slice() -> Self {
+        Self(0x45)
+    }
+
+    pub const fn ng_ksi_already_in_use() -> Self {
+        Self(0x47)
+    }
+
+    pub const fn non_3gpp_access_to_5gcn_not_allowed() -> Self {
+        Self(0x48)
+    }
+
+    pub const fn serving_network_not_authorized() -> Self {
+        Self(0x49)
+    }
+
+    pub const fn temporarily_not_authorized_for_this_snpn() -> Self {
+        Self(0x4A)
+    }
+
+    pub const fn permanently_not_authorized_for_this_snpn() -> Self {
+        Self(0x4B)
+    }
+
+    pub const fn not_authorized_for_this_cag_or_authorized_for_cag_cells_only() -> Self {
+        Self(0x4C)
+    }
+
+    pub const fn wireline_access_area_not_allowed() -> Self {
+        Self(0x4D)
+    }
+
+    pub const fn plmn_not_allowed_to_operate_at_present_ue_location() -> Self {
+        Self(0x4E)
+    }
+
+    pub const fn uas_services_not_allowed() -> Self {
+        Self(0x4F)
+    }
+
+    pub const fn disaster_roaming_for_determined_plmn_with_disaster_condition_not_allowed() -> Self {
+        Self(0x50)
+    }
+
+    pub const fn payload_was_not_forwarded() -> Self {
+        Self(0x5A)
+    }
+
+    pub const fn dnn_not_supported_or_not_subscribed_in_slice() -> Self {
+        Self(0x5B)
+    }
+
+    pub const fn insufficient_user_plane_resources_for_pdu_session() -> Self {
+        Self(0x5C)
+    }
+
+    pub const fn onboarding_services_terminated() -> Self {
+        Self(0x5D)
+    }
+
+    pub const fn semantically_incorrect_message() -> Self {
+        Self(0x5F)
+    }
+
+    pub const fn invalid_mandatory_information() -> Self {
+        Self(0x60)
+    }
+
+    pub const fn message_type_non_existent_or_not_implemented() -> Self {
+        Self(0x61)
+    }
+
+    pub const fn message_type_not_compatible_with_protocol_state() -> Self {
+        Self(0x62)
+    }
+
+    pub const fn information_element_non_existent_or_not_implemented() -> Self {
+        Self(0x63)
+    }
+
+    pub const fn conditional_ie_error() -> Self {
+        Self(0x64)
+    }
+
+    pub const fn message_not_compatible_with_protocol_state() -> Self {
+        Self(0x65)
+    }
+
+    pub const fn protocol_error_unspecified() -> Self {
+        Self(0x6F)
+    }
 }
 
 impl FiveGmmCause {
