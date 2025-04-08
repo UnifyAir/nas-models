@@ -1,30 +1,3 @@
-/*
- * The MIT License
- *
- * Copyright (C) 2019-2023 by UnifyAir Inc. <info@unifyair.com>
- *
- * This file is part of UnifyAir Core.
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 /*******************************************************************************
  * This file had been created by rust-nas-message.py script v0.2.0
  * Please do not modify this file but regenerate it via script.
@@ -35,7 +8,7 @@
 
 use tlv::prelude::*;
 use crate::types::*;
-use tlv_derive::{TlvDecode, TlvEncode};
+use tlv::tlv_derive::*;
 use auto_new_builder::auto_new_builder_derive::AutoNewBuilder;
 
 
