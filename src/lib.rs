@@ -1,5 +1,7 @@
 pub mod message;
 pub mod types;
+pub mod parser;
+pub mod error;
 pub use tlv::prelude::*;
 
 // pub mod bindings {
