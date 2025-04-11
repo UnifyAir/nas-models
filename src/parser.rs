@@ -1,6 +1,8 @@
 use tlv::{prelude::TlvDecode, Bytes};
 
 use crate::{error::NasParsingError, message::*};
+
+#[derive(Debug, Clone)]
 pub enum GmmMessage{
     RegistrationRequest(NasRegistrationRequest),
 	RegistrationAccept(NasRegistrationAccept),
@@ -140,6 +142,7 @@ impl TryFrom<&mut Bytes> for GmmMessage{
 }
 
 
+#[derive(Debug, Clone)]
 pub enum GsmMessage{
     PduSessionEstablishmentRequest(NasPduSessionEstablishmentRequest),
     PduSessionEstablishmentAccept(NasPduSessionEstablishmentAccept),
