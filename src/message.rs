@@ -1,7 +1,7 @@
 /*******************************************************************************
  * This file had been created by rust-nas-message.py script v0.2.0
  * Please do not modify this file but regenerate it via script.
- * Created on: 2025-03-13 23:14:53.896680 by nr
+ * Created on: 2025-04-12 14:49:27.187832 by nr
  * from 24501-h90.docx
  ******************************************************************************/
 
@@ -68,15 +68,18 @@ pub const NAS_MESSAGE_TYPE_5GSM_STATUS: u8 = 214;
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasRegistrationRequest {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::registration_request()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_registration_request_message_identity: MessageType,
 
@@ -218,15 +221,18 @@ pub struct NasRegistrationRequest {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasRegistrationAccept {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::registration_accept()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_registration_accept_message_identity: MessageType,
 
@@ -395,15 +401,18 @@ pub struct NasRegistrationAccept {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasRegistrationComplete {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::registration_complete()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_registration_complete_message_identity: MessageType,
 
@@ -422,15 +431,18 @@ pub struct NasRegistrationComplete {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasRegistrationReject {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::registration_reject()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_registration_reject_message_identity: MessageType,
 
@@ -482,15 +494,18 @@ pub struct NasRegistrationReject {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasDeregistrationRequestFromUe {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::deregistration_request_from_ue()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_de_registration_request_message_identity: MessageType,
 
@@ -513,15 +528,18 @@ pub struct NasDeregistrationRequestFromUe {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasDeregistrationAcceptFromUe {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::deregistration_accept_from_ue()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_de_registration_accept_message_identity: MessageType,
 
@@ -535,21 +553,25 @@ pub struct NasDeregistrationAcceptFromUe {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasDeregistrationRequestToUe {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::deregistration_request_to_ue()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_de_registration_request_message_identity: MessageType,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_de_registration_type: DeRegistrationType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet_1: SpareHalfOctet,
 
@@ -595,15 +617,18 @@ pub struct NasDeregistrationRequestToUe {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasDeregistrationAcceptToUe {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::deregistration_accept_to_ue()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_de_registration_accept_message_identity: MessageType,
 
@@ -617,15 +642,18 @@ pub struct NasDeregistrationAcceptToUe {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasServiceRequest {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::service_request()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_service_request_message_identity: MessageType,
 
@@ -668,15 +696,18 @@ pub struct NasServiceRequest {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasServiceReject {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::service_reject()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_service_reject_message_identity: MessageType,
 
@@ -725,15 +756,18 @@ pub struct NasServiceReject {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasServiceAccept {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::service_accept()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_service_accept_message_identity: MessageType,
 
@@ -773,15 +807,18 @@ pub struct NasServiceAccept {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasConfigurationUpdateCommand {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::configuration_update_command()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_configuration_update_command_message_identity: MessageType,
 
@@ -899,15 +936,18 @@ pub struct NasConfigurationUpdateCommand {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasConfigurationUpdateComplete {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::configuration_update_complete()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_configuration_update_complete_message_identity: MessageType,
 
@@ -921,21 +961,25 @@ pub struct NasConfigurationUpdateComplete {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasAuthenticationRequest {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::authentication_request()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_authentication_request_message_identity: MessageType,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_ngksi: KeySetIdentifier,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet_1: SpareHalfOctet,
 
@@ -963,15 +1007,18 @@ pub struct NasAuthenticationRequest {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasAuthenticationResponse {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::authentication_response()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_authentication_response_message_identity: MessageType,
 
@@ -993,15 +1040,18 @@ pub struct NasAuthenticationResponse {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasAuthenticationReject {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::authentication_reject()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_authentication_reject_message_identity: MessageType,
 
@@ -1020,15 +1070,18 @@ pub struct NasAuthenticationReject {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasAuthenticationFailure {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::authentication_failure()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_authentication_failure_message_identity: MessageType,
 
@@ -1050,21 +1103,25 @@ pub struct NasAuthenticationFailure {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasAuthenticationResult {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::authentication_result()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_authentication_result_message_identity: MessageType,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_ngksi: KeySetIdentifier,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet_1: SpareHalfOctet,
 
@@ -1086,21 +1143,25 @@ pub struct NasAuthenticationResult {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasIdentityRequest {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::identity_request()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_identity_request_message_identity: MessageType,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_identity_type: FiveGsIdentityType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet_1: SpareHalfOctet,
 
@@ -1114,15 +1175,18 @@ pub struct NasIdentityRequest {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasIdentityResponse {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::identity_response()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_identity_response_message_identity: MessageType,
 
@@ -1139,15 +1203,18 @@ pub struct NasIdentityResponse {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasSecurityModeCommand {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::security_mode_command()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_security_mode_command_message_identity: MessageType,
 
@@ -1157,6 +1224,7 @@ pub struct NasSecurityModeCommand {
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_ngksi: KeySetIdentifier,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet_1: SpareHalfOctet,
 
@@ -1193,15 +1261,18 @@ pub struct NasSecurityModeCommand {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasSecurityModeComplete {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::security_mode_complete()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_security_mode_complete_message_identity: MessageType,
 
@@ -1226,15 +1297,18 @@ pub struct NasSecurityModeComplete {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasSecurityModeReject {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::security_mode_reject()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_security_mode_reject_message_identity: MessageType,
 
@@ -1251,15 +1325,18 @@ pub struct NasSecurityModeReject {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct Nas5gmmStatus {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::gmm_status()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_5gmm_status_message_identity: MessageType,
 
@@ -1276,21 +1353,25 @@ pub struct Nas5gmmStatus {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasNotification {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::notification()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_notification_message_identity: MessageType,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_access_type: AccessType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet_1: SpareHalfOctet,
 
@@ -1304,15 +1385,18 @@ pub struct NasNotification {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasNotificationResponse {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::notification_response()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_notification_response_message_identity: MessageType,
 
@@ -1331,21 +1415,25 @@ pub struct NasNotificationResponse {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasUlNasTransport {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::ul_nas_transport()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_ul_nas_transport_message_identity: MessageType,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_payload_container_type: PayloadContainerType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet_1: SpareHalfOctet,
 
@@ -1388,21 +1476,25 @@ pub struct NasUlNasTransport {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasDlNasTransport {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gmm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_security_header_type: SecurityHeaderType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet: SpareHalfOctet,
 
+    #[auto_new_value = "MessageType::dl_nas_transport()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_dl_nas_transport_message_identity: MessageType,
 
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_payload_container_type: PayloadContainerType,
 
+    #[auto_new_value = "SpareHalfOctet::zero()"]
     #[tlv_config(tag_bytes_format = 0, length = 0, length_bytes_format = 0, value_bytes_format = 0, format = "V")]
     pub nas_spare_half_octet_1: SpareHalfOctet,
 
@@ -1436,6 +1528,7 @@ pub struct NasDlNasTransport {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionEstablishmentRequest {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1445,6 +1538,7 @@ pub struct NasPduSessionEstablishmentRequest {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_establishment_request()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_establishment_request_message_identity: MessageType,
 
@@ -1514,6 +1608,7 @@ pub struct NasPduSessionEstablishmentRequest {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionEstablishmentAccept {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1523,6 +1618,7 @@ pub struct NasPduSessionEstablishmentAccept {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_establishment_accept()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_establishment_accept_message_identity: MessageType,
 
@@ -1604,6 +1700,7 @@ pub struct NasPduSessionEstablishmentAccept {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionEstablishmentReject {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1613,6 +1710,7 @@ pub struct NasPduSessionEstablishmentReject {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_establishment_reject()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_establishment_reject_message_identity: MessageType,
 
@@ -1652,6 +1750,7 @@ pub struct NasPduSessionEstablishmentReject {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionAuthenticationCommand {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1661,6 +1760,7 @@ pub struct NasPduSessionAuthenticationCommand {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_authentication_command()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_authentication_command_message_identity: MessageType,
 
@@ -1682,6 +1782,7 @@ pub struct NasPduSessionAuthenticationCommand {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionAuthenticationComplete {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1691,6 +1792,7 @@ pub struct NasPduSessionAuthenticationComplete {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_authentication_complete()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_authentication_complete_message_identity: MessageType,
 
@@ -1712,6 +1814,7 @@ pub struct NasPduSessionAuthenticationComplete {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionAuthenticationResult {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1721,6 +1824,7 @@ pub struct NasPduSessionAuthenticationResult {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_authentication_result()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_authentication_result_message_identity: MessageType,
 
@@ -1742,6 +1846,7 @@ pub struct NasPduSessionAuthenticationResult {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionModificationRequest {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1751,6 +1856,7 @@ pub struct NasPduSessionModificationRequest {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_modification_request()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_modification_request_message_identity: MessageType,
 
@@ -1808,6 +1914,7 @@ pub struct NasPduSessionModificationRequest {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionModificationReject {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1817,6 +1924,7 @@ pub struct NasPduSessionModificationReject {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_modification_reject()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_modification_reject_message_identity: MessageType,
 
@@ -1847,6 +1955,7 @@ pub struct NasPduSessionModificationReject {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionModificationCommand {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1856,6 +1965,7 @@ pub struct NasPduSessionModificationCommand {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_modification_command()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_modification_command_message_identity: MessageType,
 
@@ -1916,6 +2026,7 @@ pub struct NasPduSessionModificationCommand {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionModificationComplete {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1925,6 +2036,7 @@ pub struct NasPduSessionModificationComplete {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_modification_complete()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_modification_complete_message_identity: MessageType,
 
@@ -1946,6 +2058,7 @@ pub struct NasPduSessionModificationComplete {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionModificationCommandReject {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1955,6 +2068,7 @@ pub struct NasPduSessionModificationCommandReject {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_modification_command_reject()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_modification_command_reject_message_identity: MessageType,
 
@@ -1976,6 +2090,7 @@ pub struct NasPduSessionModificationCommandReject {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionReleaseRequest {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -1985,6 +2100,7 @@ pub struct NasPduSessionReleaseRequest {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_release_request()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_release_request_message_identity: MessageType,
 
@@ -2006,6 +2122,7 @@ pub struct NasPduSessionReleaseRequest {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionReleaseReject {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -2015,6 +2132,7 @@ pub struct NasPduSessionReleaseReject {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_release_reject()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_release_reject_message_identity: MessageType,
 
@@ -2036,6 +2154,7 @@ pub struct NasPduSessionReleaseReject {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionReleaseCommand {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -2045,6 +2164,7 @@ pub struct NasPduSessionReleaseCommand {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_release_command()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_release_command_message_identity: MessageType,
 
@@ -2081,6 +2201,7 @@ pub struct NasPduSessionReleaseCommand {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct NasPduSessionReleaseComplete {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -2090,6 +2211,7 @@ pub struct NasPduSessionReleaseComplete {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::pdu_session_release_complete()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pdu_session_release_complete_message_identity: MessageType,
 
@@ -2111,6 +2233,7 @@ pub struct NasPduSessionReleaseComplete {
 #[derive(Debug, TlvEncode, TlvDecode, Clone, AutoNewBuilder)]
 pub struct Nas5gsmStatus {
     /* Mandatory fields */
+    #[auto_new_value = "ExtendedProtocolDiscriminator::gsm()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_extended_protocol_discriminator: ExtendedProtocolDiscriminator,
 
@@ -2120,6 +2243,7 @@ pub struct Nas5gsmStatus {
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_pti: ProcedureTransactionIdentity,
 
+    #[auto_new_value = "MessageType::gsm_status()"]
     #[tlv_config(tag_bytes_format = 0, length = 1, length_bytes_format = 0, format = "V")]
     pub nas_5gsm_status_message_identity: MessageType,
 
