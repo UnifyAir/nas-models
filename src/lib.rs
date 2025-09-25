@@ -4,10 +4,6 @@ pub mod parser;
 pub mod error;
 pub use tlv::prelude::*;
 
-// pub mod bindings {
-//     include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
-// }
-
 
 // #[allow(dead_code)]
 // pub struct NoOpMessageType(u8);
