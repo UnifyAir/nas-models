@@ -11,7 +11,3 @@ thiserror = "2.0.12"
 
 tlv = { git = "https://github.com/UnifyAir/tlv-compiler.git", package = "tlv", branch = "master" }
 auto-new-builder = { git = "https://github.com/UnifyAir/auto-new-builder.git", package = "auto-new-builder", branch = "master" }
-
-[build-dependencies]
-cc = "1.0"
-bindgen = "0.69.1"
