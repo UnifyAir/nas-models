@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-bitfield = "0.19.3"
+bitfield = "0.20.0"
 derive_more = { version = "2.0.1", features = ["from", "into"] }
 hex = "0.4.3"
 thiserror = "2.0.17"
